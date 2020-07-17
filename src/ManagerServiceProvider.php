@@ -34,6 +34,19 @@ class ManagerServiceProvider extends ServiceProvider
         $configPath = __DIR__ . '/../config/' . self::PACKAGE . '.php';
         $this->mergeConfigFrom($configPath, self::PACKAGE);
         $this->publishes([$configPath => config_path(self::PACKAGE . '.php')], 'config');
+        
+        $db_driver = config('database.default');
+
+		if ($db_driver === 'pgsql') {
+			$translatorRepository = 'Vsch\TranslationManager\Repositories\PostgresTranslatorRepository';
+		} else {
+			$translatorRepository = 'Vsch\TranslationManager\Repositories\MysqlTranslatorRepository';
+		}
+
+		$this->app->bind(
+			'Vsch\TranslationManager\Repositories\Interfaces\ITranslatorRepository',
+			$translatorRepository
+		);
 
         $this->app->singleton(self::PACKAGE, function ($app) {
             /* @var $manager \Vsch\TranslationManager\Manager */
