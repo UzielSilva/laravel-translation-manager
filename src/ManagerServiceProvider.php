@@ -1,15 +1,15 @@
-<?php namespace Vsch\TranslationManager;
+<?php 
 
+namespace Vsch\TranslationManager;
+
+use Vsch\TranslationManager\Console;
 use Illuminate\Routing\Router;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class ManagerServiceProvider extends ServiceProvider
+class ManagerServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     const PACKAGE = 'laravel-translation-manager';
-
-    // Laravel 5
-    const CONTROLLER_PREFIX = '\\';
-    const PUBLIC_PREFIX = '/vendor/';
 
     public static function getLists($query)
     {
@@ -34,19 +34,6 @@ class ManagerServiceProvider extends ServiceProvider
         $configPath = __DIR__ . '/../config/' . self::PACKAGE . '.php';
         $this->mergeConfigFrom($configPath, self::PACKAGE);
         $this->publishes([$configPath => config_path(self::PACKAGE . '.php')], 'config');
-        
-        $db_driver = config('database.default');
-
-        if ($db_driver === 'pgsql') {
-            $translatorRepository = 'Vsch\TranslationManager\Repositories\PostgresTranslatorRepository';
-        } else {
-            $translatorRepository = 'Vsch\TranslationManager\Repositories\MysqlTranslatorRepository';
-        }
-
-        $this->app->bind(
-            'Vsch\TranslationManager\Repositories\Interfaces\ITranslatorRepository',
-            $translatorRepository
-        );
 
         $this->app->singleton(self::PACKAGE, function ($app) {
             /* @var $manager \Vsch\TranslationManager\Manager */
