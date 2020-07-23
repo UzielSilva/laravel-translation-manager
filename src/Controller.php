@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Vsch\TranslationManager\Classes\TranslationLocales;
 use Vsch\TranslationManager\Events\TranslationsPublished;
@@ -679,7 +680,7 @@ class Controller extends BaseController
         $prefix = '';
         $gkey = $key;
 
-        if (starts_with($key, 'vnd:') || starts_with($key, 'wbn:')) {
+        if (Str::startsWith($key, 'vnd:') || Str::startsWith($key, 'wbn:')) {
             // these have vendor with . afterwards in the group
             $parts = explode('.', $key, 2);
 
