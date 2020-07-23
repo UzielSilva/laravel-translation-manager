@@ -11,6 +11,10 @@ class ManagerServiceProvider extends ServiceProvider implements DeferrableProvid
 {
     const PACKAGE = 'laravel-translation-manager';
 
+    // Laravel 5
+    const CONTROLLER_PREFIX = '\\';
+    const PUBLIC_PREFIX = '/vendor/';
+
     public static function getLists($query)
     {
         return $query->all();
