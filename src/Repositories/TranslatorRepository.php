@@ -80,8 +80,8 @@ abstract class TranslatorRepository implements ITranslatorRepository
         $this->translation->getConnection()->affectingStatement(
             $this->adjustTranslationTable(
                 <<<SQL
-            UPDATE ltm_translations SET was_used = 0 WHERE was_used <> 0
-    SQL
+                UPDATE ltm_translations SET was_used = 0 WHERE was_used <> 0
+                SQL
             )
         );
     }
@@ -91,8 +91,8 @@ abstract class TranslatorRepository implements ITranslatorRepository
         $this->translation->getConnection()->affectingStatement(
             $this->adjustTranslationTable(
                 <<<SQL
-UPDATE ltm_translations SET status = ?, is_deleted = 0, updated_at = ? WHERE id IN ($translationIds)
-    SQL
+                UPDATE ltm_translations SET status = ?, is_deleted = 0, updated_at = ? WHERE id IN ($translationIds)
+                SQL
             ),
             [$status, $updated_at]
         );
@@ -128,8 +128,8 @@ UPDATE ltm_translations SET status = ?, is_deleted = 0, updated_at = ? WHERE id 
         $this->translation->getConnection()->unprepared(
             $this->adjustTranslationTable(
                 <<<SQL
-          DELETE FROM ltm_translations WHERE id IN ($translationIds)
-    SQL
+                DELETE FROM ltm_translations WHERE id IN ($translationIds)
+                SQL
             )
         );
     }
