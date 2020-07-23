@@ -272,7 +272,7 @@ class Manager
         return $this->config(self::USER_LOCALES_ENABLED, false);
     }
 
-    function firstOrNewTranslation($attributes = null)
+    public function firstOrNewTranslation($attributes = null)
     {
         $checkDB = true;
 
@@ -280,17 +280,13 @@ class Manager
 
         $translation = null;
 
-        if (
-            $this->preloadedGroupKeys && array_key_exists('group', $attributes) && $this->preloadedGroup === $attributes['group']
+        if ($this->preloadedGroupKeys && array_key_exists('group', $attributes) && $this->preloadedGroup === $attributes['group']
             && array_key_exists('locale', $attributes) && array_key_exists('key', $attributes)
-            && array_key_exists($attributes['locale'], $this->preloadedGroupLocales)
-        ) {
+            && array_key_exists($attributes['locale'], $this->preloadedGroupLocales)) {
             $checkDB = false;
 
-            if (
-                array_key_exists($attributes['key'], $this->preloadedGroupKeys)
-                && array_key_exists($attributes['locale'], $this->preloadedGroupKeys[$attributes['key']])
-            ) {
+            if (array_key_exists($attributes['key'], $this->preloadedGroupKeys)
+                && array_key_exists($attributes['locale'], $this->preloadedGroupKeys[$attributes['key']])) {
                 $translation = $this->preloadedGroupKeys[$attributes['key']][$attributes['locale']];
             }
         }
@@ -319,7 +315,7 @@ class Manager
         return $translation;
     }
 
-    function firstOrCreateTranslation($attributes = null)
+    public function firstOrCreateTranslation($attributes = null)
     {
         $translation = $this->firstOrNewTranslation($attributes);
         if (!$translation->exists) {
@@ -1716,10 +1712,10 @@ class Manager
             $group = $translation->group;
             $key = $translation->key;
             if (!array_key_exists($key, $nonArrays)) {
-                $value = array_get($tree[$translation->locale][$translation->group], $translation->key);
+                $value = Arr::get($tree[$translation->locale][$translation->group], $translation->key);
 
                 if (is_array($value)) {
-                    // this one is an array while it is a translation in the source 
+                    // this one is an array while it is a translation in the source
                     $nonArrays[$group][$key] = $translation;
                 }
             }
