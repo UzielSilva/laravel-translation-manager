@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  * @property string         $ui_settings  // preference settings in the react ui app
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @mixin \Eloquent
+ * @mixin    \Eloquent
  */
 class UserLocales extends Eloquent
 {
@@ -28,4 +28,3 @@ class UserLocales extends Eloquent
         $this->setConnection(config('laravel-translation-manager.default_connection'));
     }
 }
-

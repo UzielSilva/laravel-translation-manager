@@ -15,7 +15,9 @@ class Translator extends LaravelTranslator
 {
     protected $useLottery;
 
-    /** @var  Dispatcher */
+    /**
+     * @var Dispatcher 
+     */
     protected $dispatchesEvents;
 
     /* @var $manager Manager */
@@ -40,9 +42,9 @@ class Translator extends LaravelTranslator
     /**
      * Translator constructor.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param \Illuminate\Foundation\Application       $app
      * @param \Illuminate\Contracts\Translation\Loader $loader
-     * @param                                          $locale
+     * @param $locale
      */
     public function __construct(Application $app, Loader $loader, $locale)
     {
@@ -132,7 +134,7 @@ class Translator extends LaravelTranslator
     /**
      * Set the default locale.
      *
-     * @param  string $locale
+     * @param string $locale
      *
      * @return void
      */
@@ -174,7 +176,7 @@ class Translator extends LaravelTranslator
     /**
      * Set the default showUnpublished.
      *
-     * @param  string $showUnpublished
+     * @param string $showUnpublished
      *
      * @return void
      */
@@ -207,7 +209,7 @@ class Translator extends LaravelTranslator
     /**
      * Set the fallback locale being used.
      *
-     * @param  string $fallback
+     * @param string $fallback
      *
      * @return void
      */
@@ -248,12 +250,12 @@ class Translator extends LaravelTranslator
     }
 
     /**
-     * @param $t
-     * @param $withDiff
-     * @param $key
-     * @param $locale
-     * @param $useDB
-     * @param $group
+     * @param  $t
+     * @param  $withDiff
+     * @param  $key
+     * @param  $locale
+     * @param  $useDB
+     * @param  $group
      * @return $t resolved or adjusted for details needed for edit link generation
      */
     public function getTranslationForEditLink($t, $withDiff, $key, $locale, $useDB, $group)
@@ -262,17 +264,20 @@ class Translator extends LaravelTranslator
             $this->suspendUsageLogging();
 
             if (!$t && $key) {
-                if ($useDB === null) $useDB = $this->useDB;
+                if ($useDB === null) { $useDB = $this->useDB;
+                }
 
                 list($namespace, $parsed_group, $item) = $this->parseKey($key);
-                if ($group === null) $group = $parsed_group;
-                else {
+                if ($group === null) { $group = $parsed_group;
+                } else {
                     $item = substr($key, strlen("$group."));
-                    if ($namespace && $namespace !== '*') $group = substr($group, strlen("$namespace::"));
+                    if ($namespace && $namespace !== '*') { $group = substr($group, strlen("$namespace::"));
+                    }
                 }
 
                 if ($this->manager && $group && $item && (!$this->manager->excludedPageEditGroup($group) || $withDiff)) {
-                    if ($locale == null) $locale = $this->locale();
+                    if ($locale == null) { $locale = $this->locale();
+                    }
 
                     $t = $this->manager->missingKey($namespace, $group, $item, $locale, false, true);
                     if ($t && (!$t->exists || $t->value == '') && $namespace != '*') {
@@ -289,7 +294,8 @@ class Translator extends LaravelTranslator
             }
 
             if ($t) {
-                if ($t->value === null) $t->value = '';
+                if ($t->value === null) { $t->value = '';
+                }
 
                 if ($withDiff && (!isset($t->diff) || $t->diff === '')) {
                     $t->diff = ($t->saved_value == $t->value || !$t->save_value || !$t->value ? '' : ($t->saved_value === $t->value ? '' : mb_renderDiffHtml($t->saved_value, $t->value)));
@@ -370,14 +376,14 @@ class Translator extends LaravelTranslator
     /**
      * Get the translation for a given key from the JSON translation files.
      *
-     * @param  string $key
-     * @param  array $replace
-     * @param  string $locale
-     * @param  int $useDB null - check usedb field which is set to 1 by default,
-     *                       0 - don't use,
-     *                       1 - only if key is missing in files or saved in the translator cache, use saved_value
-     *                       fallback on $key,
-     *                       2 - always use value from db, (unpublished value) not cached.
+     * @param string $key
+     * @param array  $replace
+     * @param string $locale
+     * @param int    $useDB   null - check usedb field which is set to 1 by default,
+     *                        0 - don't use, 1 - only if key is missing in files or
+     *                        saved in the translator cache, use saved_value
+     *                        fallback on $key, 2 - always use value from db,
+     *                        (unpublished value) not cached.
      *
      * @return string
      */
@@ -392,10 +398,12 @@ class Translator extends LaravelTranslator
                 $item = $this->loaded['*']['*']['json'][$key];
             }
         }
-        if ($item == null) return $this->get($key, $replace, $locale, true, $useDB);   // not a json key
+        if ($item == null) { return $this->get($key, $replace, $locale, true, $useDB);   // not a json key
+        }
 
         $locale = $locale ?: $this->locale;
-        if ($useDB === null) $useDB = $this->useDB;
+        if ($useDB === null) { $useDB = $this->useDB;
+        }
         $group = 'JSON';
         $namespace = '';
 
@@ -412,7 +420,8 @@ class Translator extends LaravelTranslator
                 $t = $this->manager->missingKey($namespace, $group, $item, $locale, $this->isUseLottery(), true);
                 if ($t) {
                     $result = $t->value ?: $key;
-                    if ($t->isDirty()) $t->save();
+                    if ($t->isDirty()) { $t->save();
+                    }
                     $this->notifyUsingGroupItem($namespace, $group, $item, $locale);
                     return $this->processResult($result, $replace);
                 }
@@ -436,7 +445,8 @@ class Translator extends LaravelTranslator
                     $t = $this->manager->missingKey($namespace, $group, $item, $locale, $this->isUseLottery(), true);
                     if ($t) {
                         $result = $t->saved_value ?: $key;
-                        if ($t->isDirty()) $t->save();
+                        if ($t->isDirty()) { $t->save();
+                        }
 
                         // save in cache even if it has no value to prevent hitting the database every time just to figure it out
                         $this->manager->cacheTranslation($namespace, $group, $item, $result, $locale ?: $this->getLocale());
@@ -457,15 +467,15 @@ class Translator extends LaravelTranslator
     /**
      * Get the translation for the given key.
      *
-     * @param  string $key
-     * @param  array $replace
-     * @param  string $locale
-     * @param bool $fallback
-     * @param  int $useDB null - check usedb field which is set to 1 by default,
-     *                       0 - don't use,
-     *                       1 - only if key is missing in files or saved in the translator cache, use saved_value
-     *                       fallback on $key,
-     *                       2 - always use value from db, (unpublished value) not cached.
+     * @param string $key
+     * @param array  $replace
+     * @param string $locale
+     * @param bool   $fallback
+     * @param int    $useDB    null - check usedb field which is set to 1 by default,
+     *                         0 - don't use, 1 - only if key is missing in files or
+     *                         saved in the translator cache, use saved_value
+     *                         fallback on $key, 2 - always use value from db,
+     *                         (unpublished value) not cached.
      *
      * @return string
      */
@@ -485,7 +495,8 @@ class Translator extends LaravelTranslator
             return $this->inPlaceEditLink(null, true, $key, $locale);
         }
 
-        if ($useDB === null) $useDB = $this->useDB;
+        if ($useDB === null) { $useDB = $this->useDB;
+        }
 
         if ($useDB && $useDB !== 2) {
             $augmentedGroup = $this->manager->getAugmentedGroup($namespace, $group);
@@ -659,12 +670,12 @@ HTML;
     /**
      * Get a translation according to an integer value.
      *
-     * @param  string $id
-     * @param  int $number
-     * @param  array $parameters
-     * @param  string $locale
-     * @param  string $domain
-     * @param null $useDB
+     * @param string $id
+     * @param int    $number
+     * @param array  $parameters
+     * @param string $locale
+     * @param string $domain
+     * @param null   $useDB
      *
      * @return string
      */
@@ -676,11 +687,11 @@ HTML;
     /**
      * Get the translation for a given key.
      *
-     * @param  string $id
-     * @param  array $parameters
-     * @param  string $locale
-     * @param  string $domain
-     * @param null $useDB
+     * @param string $id
+     * @param array  $parameters
+     * @param string $locale
+     * @param string $domain
+     * @param null   $useDB
      *
      * @return string
      */
@@ -692,10 +703,10 @@ HTML;
     /**
      * Get a translation according to an integer value.
      *
-     * @param  string $key
-     * @param  int $number
-     * @param  array $replace
-     * @param  string $locale
+     * @param string $key
+     * @param int    $number
+     * @param array  $replace
+     * @param string $locale
      *
      * @return string
      */
@@ -781,12 +792,14 @@ HTML;
         // limit the locale list to what is in the config
         $configShowLocales = $this->manager->config(Manager::SHOW_LOCALES_KEY, []);
         if ($configShowLocales) {
-            if (!is_array($configShowLocales)) $configShowLocales = array($configShowLocales);
+            if (!is_array($configShowLocales)) { $configShowLocales = array($configShowLocales);
+            }
             $locales = array_intersect($locales, $configShowLocales);
         }
 
         $configLocales = $this->manager->config(Manager::ADDITIONAL_LOCALES_KEY, []);
-        if (!is_array($configLocales)) $configLocales = array($configLocales);
+        if (!is_array($configLocales)) { $configLocales = array($configLocales);
+        }
 
         $locales = array_merge(array($currentLocale), $configLocales, $locales);
         return array_flatten(array_unique($locales));

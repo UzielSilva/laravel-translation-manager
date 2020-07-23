@@ -21,7 +21,9 @@ class ImportCommand extends Command
      */
     protected $description = 'Import translations from the PHP sources';
 
-    /** @var  \Vsch\TranslationManager\Manager */
+    /**
+     * @var \Vsch\TranslationManager\Manager
+     */
     protected $manager;
 
     public function __construct(Manager $manager)
@@ -35,7 +37,8 @@ class ImportCommand extends Command
      *
      * @return void
      */
-    public function fire() {
+    public function fire()
+    {
         $this->handle();
     }
 

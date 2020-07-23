@@ -35,8 +35,8 @@ abstract class TranslatorRepository implements ITranslatorRepository
     /**
      * Return value to be used for concatenation as a database value
      *
-     * @param         $value
-     * @param  string $nullValue to be used if value is null
+     * @param $value
+     * @param string $nullValue to be used if value is null
      *
      * @return string
      */
@@ -77,18 +77,25 @@ abstract class TranslatorRepository implements ITranslatorRepository
 
     public function setNotUsedForAllTranslations()
     {
-        $this->translation->getConnection()->affectingStatement($this->adjustTranslationTable(<<<SQL
+        $this->translation->getConnection()->affectingStatement(
+            $this->adjustTranslationTable(
+                <<<SQL
             UPDATE ltm_translations SET was_used = 0 WHERE was_used <> 0
-SQL
-        ));
+    SQL
+            )
+        );
     }
 
     public function updateStatusForTranslations($status, $updated_at, $translationIds)
     {
-        $this->translation->getConnection()->affectingStatement($this->adjustTranslationTable(<<<SQL
+        $this->translation->getConnection()->affectingStatement(
+            $this->adjustTranslationTable(
+                <<<SQL
 UPDATE ltm_translations SET status = ?, is_deleted = 0, updated_at = ? WHERE id IN ($translationIds)
-SQL
-        ), [$status, $updated_at]);
+    SQL
+            ),
+            [$status, $updated_at]
+        );
     }
 
     /**
@@ -102,25 +109,28 @@ SQL
     public function getInsertTranslationsElement($translation, $timeStamp)
     {
         return '(' .
-        self::dbValue($translation->status, Translation::STATUS_SAVED) . ',' .
-        self::dbValue($translation->locale) . ',' .
-        self::dbValue($translation->group) . ',' .
-        self::dbValue($translation->key) . ',' .
-        self::dbValue($translation->value) . ',' .
-        self::dbValue($translation->created_at, $timeStamp) . ',' .
-        self::dbValue($translation->updated_at, $timeStamp) . ',' .
-        self::dbValue($translation->source) . ',' .
-        self::dbValue($translation->saved_value) . ',' .
-        self::dbValue($translation->is_deleted, 0) . ',' .
-        self::dbValue($translation->was_used, 0) .
-        ')';
+            self::dbValue($translation->status, Translation::STATUS_SAVED) . ',' .
+            self::dbValue($translation->locale) . ',' .
+            self::dbValue($translation->group) . ',' .
+            self::dbValue($translation->key) . ',' .
+            self::dbValue($translation->value) . ',' .
+            self::dbValue($translation->created_at, $timeStamp) . ',' .
+            self::dbValue($translation->updated_at, $timeStamp) . ',' .
+            self::dbValue($translation->source) . ',' .
+            self::dbValue($translation->saved_value) . ',' .
+            self::dbValue($translation->is_deleted, 0) . ',' .
+            self::dbValue($translation->was_used, 0) .
+            ')';
     }
 
     public function deleteTranslationsForIds($translationIds)
     {
-        $this->translation->getConnection()->unprepared($this->adjustTranslationTable(<<<SQL
+        $this->translation->getConnection()->unprepared(
+            $this->adjustTranslationTable(
+                <<<SQL
           DELETE FROM ltm_translations WHERE id IN ($translationIds)
-SQL
-        ));
+    SQL
+            )
+        );
     }
 }

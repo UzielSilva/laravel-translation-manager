@@ -4,8 +4,7 @@ namespace Vsch\TranslationManager;
 
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
@@ -51,11 +50,17 @@ class Manager
     const DISABLE_REACT_UI = 'disable-react-ui';
     const DISABLE_REACT_UI_LINK = 'disable-react-ui-link';
 
-    /** @var \Illuminate\Foundation\Application */
+    /**
+     * @var \Illuminate\Foundation\Application
+     */
     protected $app;
-    /** @var \Illuminate\Filesystem\Filesystem */
+    /**
+     * @var \Illuminate\Filesystem\Filesystem
+     */
     protected $files;
-    /** @var \Illuminate\Events\Dispatcher */
+    /**
+     * @var \Illuminate\Events\Dispatcher
+     */
     protected $dispathesEvents;
 
     protected $config;
@@ -86,7 +91,7 @@ class Manager
     protected $jsonLtmKeys;
 
     /**
-     * @var   \ZipArchive
+     * @var \ZipArchive
      */
     protected $zipExporting;
     protected $jsonKeyWordSeparator;
@@ -213,7 +218,9 @@ class Manager
         }
 
         $userListConnection = $this->getConnectionInfo($connectionName, self::USER_LIST_CONNECTION_KEY, $connectionName);
-        if (!$userListConnection) $userListConnection = $connectionName;
+        if (!$userListConnection) {
+            $userListConnection = $connectionName;
+        }
         return $userListConnection;
     }
 
@@ -254,7 +261,7 @@ class Manager
      */
     public function inDatabasePublishing()
     {
-        return $this->zipExporting ? 3 : (int)$this->indatabase_publish;
+        return $this->zipExporting ? 3 : (int) $this->indatabase_publish;
     }
 
     /**
@@ -273,13 +280,15 @@ class Manager
 
         $translation = null;
 
-        if ($this->preloadedGroupKeys && array_key_exists('group', $attributes) && $this->preloadedGroup === $attributes['group']
+        if (
+            $this->preloadedGroupKeys && array_key_exists('group', $attributes) && $this->preloadedGroup === $attributes['group']
             && array_key_exists('locale', $attributes) && array_key_exists('key', $attributes)
             && array_key_exists($attributes['locale'], $this->preloadedGroupLocales)
         ) {
             $checkDB = false;
-            
-            if (array_key_exists($attributes['key'], $this->preloadedGroupKeys)
+
+            if (
+                array_key_exists($attributes['key'], $this->preloadedGroupKeys)
                 && array_key_exists($attributes['locale'], $this->preloadedGroupKeys[$attributes['key']])
             ) {
                 $translation = $this->preloadedGroupKeys[$attributes['key']][$attributes['locale']];
@@ -530,7 +539,9 @@ class Manager
             $this->cache = [];
             $this->cacheIsDirty = !!$this->persistentPrefix;
         } else if ($this->cache()) {
-            if (!is_array($groups)) $groups = [$groups];
+            if (!is_array($groups)) {
+                $groups = [$groups];
+            }
 
             foreach ($groups as $group) {
                 if (array_key_exists($group, $this->cache)) {
@@ -714,12 +725,12 @@ class Manager
     }
 
     /**
-     * @param             $namespace string
-     * @param             $group     string
-     * @param             $key       string
+     * @param $namespace  string
+     * @param $group      string
+     * @param $key        string
      * @param null|string $locale
-     * @param bool $useLottery
-     * @param bool $findOrNew
+     * @param bool        $useLottery
+     * @param bool        $findOrNew
      *
      * @return \Vsch\TranslationManager\Models\Translation|null
      */
@@ -751,17 +762,21 @@ class Manager
                     $locale = $locale ?: ($this->translator ?: ($this->translator = $this->app->make('translator')))->getLocale();
 
                     if ($findOrNew) {
-                        $translation = $this->firstOrNewTranslation(array(
-                            'locale' => $locale,
-                            'group' => $augmentedGroup,
-                            'key' => $key,
-                        ));
+                        $translation = $this->firstOrNewTranslation(
+                            array(
+                                'locale' => $locale,
+                                'group' => $augmentedGroup,
+                                'key' => $key,
+                            )
+                        );
                     } else {
-                        $translation = $this->firstOrCreateTranslation(array(
-                            'locale' => $locale,
-                            'group' => $augmentedGroup,
-                            'key' => $key,
-                        ));
+                        $translation = $this->firstOrCreateTranslation(
+                            array(
+                                'locale' => $locale,
+                                'group' => $augmentedGroup,
+                                'key' => $key,
+                            )
+                        );
                     }
 
                     if ($group === 'JSON' && $locale !== 'json') {
@@ -772,14 +787,16 @@ class Manager
                             if (!array_key_exists($key, $this->jsonLtmKeys)) {
                                 $ltmKey = $this->generateLtmKey($this->jsonLtmKeys, $key);
 
-                                $jsonTranslation = $this->firstOrCreateTranslation(array(
-                                    'locale' => 'json',
-                                    'group' => $augmentedGroup,
-                                    'key' => $ltmKey,
-                                    'value' => $key,
-                                    'saved_value' => $key,
-                                    'status' => Translation::STATUS_CHANGED,
-                                ));
+                                $jsonTranslation = $this->firstOrCreateTranslation(
+                                    array(
+                                        'locale' => 'json',
+                                        'group' => $augmentedGroup,
+                                        'key' => $ltmKey,
+                                        'value' => $key,
+                                        'saved_value' => $key,
+                                        'status' => Translation::STATUS_CHANGED,
+                                    )
+                                );
 
                                 $this->ltmJsonKeys[$ltmKey] = $key;
                                 $this->jsonLtmKeys[$key] = $ltmKey;
@@ -813,14 +830,13 @@ class Manager
     }
 
     /**
-     * @param             $namespace string
-     * @param             $group     string
-     * @param             $key       string
+     * @param $namespace  string
+     * @param $group      string
+     * @param $key        string
      * @param null|string $locale
-     * @param bool $useLottery
+     * @param bool        $useLottery
      */
-    public
-    function usingKey($namespace, $group, $key, $locale, $useLottery)
+    public function usingKey($namespace, $group, $key, $locale, $useLottery)
     {
         if ($this->config(self::LOG_KEY_USAGE_INFO_KEY)) {
             $group = self::fixGroup($group);
@@ -850,8 +866,7 @@ class Manager
      * @param $translations
      * @param $replace
      */
-    protected
-    function importTranslationFile($locale, $db_group, $translations, $replace)
+    protected function importTranslationFile($locale, $db_group, $translations, $replace)
     {
         $connectionName = $this->getConnectionName();
         $dbTranslations = $this->translatorRepository->selectTranslationsByLocaleAndGroup($locale, $db_group);
@@ -867,9 +882,11 @@ class Manager
 
         $timeStamp = 'now()';
         $dbTransMap = [];
-        $dbTranslations->each(function ($trans) use (&$dbTransMap, $connectionName) {
-            $dbTransMap[$trans->key] = $trans;
-        });
+        $dbTranslations->each(
+            function ($trans) use (&$dbTransMap, $connectionName) {
+                $dbTransMap[$trans->key] = $trans;
+            }
+        );
 
         $values = [];
         $statusChangeOnly = [];
@@ -879,21 +896,25 @@ class Manager
                 continue;
             }
             if (is_array($value)) {
-                if ($value) $this->errors[] = "translation value is an array: $db_group.$key locale $locale";
+                if ($value) {
+                    $this->errors[] = "translation value is an array: $db_group.$key locale $locale";
+                }
                 continue;
             }
 
-            $value = (string)$value;
+            $value = (string) $value;
 
             if (array_key_exists($key, $dbTransMap)) {
                 $translation = $dbTransMap[$key];
                 unset($dbTransMap[$key]);
             } else {
-                $translation = new Translation(array(
-                    'locale' => $locale,
-                    'group' => $db_group,
-                    'key' => $key,
-                ));
+                $translation = new Translation(
+                    array(
+                        'locale' => $locale,
+                        'group' => $db_group,
+                        'key' => $key,
+                    )
+                );
 
                 $translation->setConnection($connectionName);
             }
@@ -901,7 +922,7 @@ class Manager
             $translation->is_deleted = 0;
             $translation->is_auto_added = 0;
 
-            $status = (int)$translation->status;
+            $status = (int) $translation->status;
 
             // replace if current translation has no value or we want to replace existing values
             if ($replace || !$translation->value) {
@@ -917,7 +938,9 @@ class Manager
                 if ($translation->value === $translation->saved_value) {
                     if ($value === $previousSaved) {
                         // if it was saved then it is still reflecting the file, otherwise consider it cached.
-                        if ($status !== Translation::STATUS_SAVED) $status = Translation::STATUS_SAVED_CACHED;
+                        if ($status !== Translation::STATUS_SAVED) {
+                            $status = Translation::STATUS_SAVED_CACHED;
+                        }
                     } else {
                         // the file and database are the same, but the database may no longer reflect the file
                         $status = Translation::STATUS_SAVED_CACHED;
@@ -927,7 +950,7 @@ class Manager
                 }
             }
 
-            if ($status !== (int)$translation->status) {
+            if ($status !== (int) $translation->status) {
                 $translation->status = $status;
             }
 
@@ -979,14 +1002,15 @@ class Manager
         }
     }
 
-    private
-    function generateLtmKey($jsonLtmKeys, $jsonKey, $maxJsonKey = null)
+    private function generateLtmKey($jsonLtmKeys, $jsonKey, $maxJsonKey = null)
     {
         // replace all symbols and spaces with _, remove duplicate _ and use that if it does not already exist
         // if it exists we append _# until we get a unique key
         if (!$maxJsonKey) {
             $maxJsonKey = $this->config('json_dbkey_length', 32);
-            if ($maxJsonKey > 120) $maxJsonKey = 120;
+            if ($maxJsonKey > 120) {
+                $maxJsonKey = 120;
+            }
         }
 
         $ltmKey = mb_strtolower($jsonKey);
@@ -997,7 +1021,9 @@ class Manager
         for ($i = 0; $i < $iMax; $i++) {
             $c = mb_substr($ltmKey, $i, 1);
             if (preg_match("/[\\p{L}0-9]/", $c)) {
-                if ($hadUnderscore) $newKey .= $this->jsonKeyWordSeparator;
+                if ($hadUnderscore) {
+                    $newKey .= $this->jsonKeyWordSeparator;
+                }
                 $newKey .= $c;
                 $hadUnderscore = false;
             } else if (!$hadUnderscore) {
@@ -1021,8 +1047,7 @@ class Manager
         return $ltmKey . $suffix;
     }
 
-    private
-    function loadLtmJsonKeys($loadAllKeys = false, $ignoreDeleted = false, $loadValues = false)
+    private function loadLtmJsonKeys($loadAllKeys = false, $ignoreDeleted = false, $loadValues = false)
     {
         if (!isset($this->ltmJsonKeys)) {
             $newKeyFromPrimary = $this->isNewJsonKeyFromPrimaryLocale();
@@ -1053,24 +1078,28 @@ class Manager
             }
 
             $q = $q
-                ->get([
-                    'key',
-                    $loadValues ? 'value' : 'saved_value',
-                ]);
+                ->get(
+                    [
+                        'key',
+                        $loadValues ? 'value' : 'saved_value',
+                    ]
+                );
 
             $this->ltmJsonKeys = [];
             $this->jsonLtmKeys = [];
             $primaryLocaleValues = [];
-            $q->each(function ($tr) use ($loadValues, &$primaryLocaleValues) {
-                $value = $loadValues ? $tr->value : $tr->saved_value;
-                $key = $tr->key;
-                if ($key === 'json') {
-                    $this->ltmJsonKeys[$key] = $value;
-                    $this->jsonLtmKeys[$value] = $key;
-                } else {
-                    $primaryLocaleValues[$key] = $value;
+            $q->each(
+                function ($tr) use ($loadValues, &$primaryLocaleValues) {
+                    $value = $loadValues ? $tr->value : $tr->saved_value;
+                    $key = $tr->key;
+                    if ($key === 'json') {
+                        $this->ltmJsonKeys[$key] = $value;
+                        $this->jsonLtmKeys[$value] = $key;
+                    } else {
+                        $primaryLocaleValues[$key] = $value;
+                    }
                 }
-            });
+            );
 
             if ($loadAllKeys) {
                 $q = $this->translation->query()
@@ -1092,24 +1121,27 @@ class Manager
 
                 $q = $q
                     ->groupBy(['key'])
-                    ->get([
-                        'key',
-                    ]);
+                    ->get(
+                        [
+                            'key',
+                        ]
+                    );
 
-                $q->each(function ($tr) use ($primaryLocaleValues) {
-                    $key = $tr->key;
-                    if (!array_key_exists($key, $this->ltmJsonKeys)) {
-                        $jsonKey = array_key_exists($key, $primaryLocaleValues) ? $primaryLocaleValues[$key] : $key;
-                        $this->ltmJsonKeys[$key] = $jsonKey;
-                        $this->jsonLtmKeys[$jsonKey] = $key;
+                $q->each(
+                    function ($tr) use ($primaryLocaleValues) {
+                        $key = $tr->key;
+                        if (!array_key_exists($key, $this->ltmJsonKeys)) {
+                            $jsonKey = array_key_exists($key, $primaryLocaleValues) ? $primaryLocaleValues[$key] : $key;
+                            $this->ltmJsonKeys[$key] = $jsonKey;
+                            $this->jsonLtmKeys[$jsonKey] = $key;
+                        }
                     }
-                });
+                );
             }
         }
     }
 
-    public
-    function getTranslations($namespace, $group, $locale, $includeMissing = true, $useUnpublished = false, $mergeTranslations = null)
+    public function getTranslations($namespace, $group, $locale, $includeMissing = true, $useUnpublished = false, $mergeTranslations = null)
     {
         $group = self::fixGroup($group);
         $group = $namespace && $namespace !== '*' ? $namespace . '::' . $group : $group;
@@ -1130,41 +1162,48 @@ class Manager
         $translations = $mergeTranslations ?: [];
 
         if ($useUnpublished) {
-            $jsonTranslations = $query->get([
-                'key',
-                'value',
-                'is_deleted',
-            ]);
+            $jsonTranslations = $query->get(
+                [
+                    'key',
+                    'value',
+                    'is_deleted',
+                ]
+            );
 
-            $jsonTranslations->each(function ($tr) use ($namespace, $group, $locale, &$translations, $includeMissing) {
-                if ($tr->is_deleted) {
-                    if ($includeMissing) {
-                        $translations[$tr->key] = null;
-                    } else {
-                        if (array_key_exists($tr->key, $translations)) {
-                            unset($translations[$tr->key]);
+            $jsonTranslations->each(
+                function ($tr) use ($namespace, $group, $locale, &$translations, $includeMissing) {
+                    if ($tr->is_deleted) {
+                        if ($includeMissing) {
+                            $translations[$tr->key] = null;
+                        } else {
+                            if (array_key_exists($tr->key, $translations)) {
+                                unset($translations[$tr->key]);
+                            }
                         }
+                    } else {
+                        $translations[$tr->key] = $tr->value;
                     }
-                } else {
-                    $translations[$tr->key] = $tr->value;
                 }
-            });
+            );
         } else {
-            $jsonTranslations = $query->get([
-                'key',
-                'saved_value',
-            ]);
+            $jsonTranslations = $query->get(
+                [
+                    'key',
+                    'saved_value',
+                ]
+            );
 
-            $jsonTranslations->each(function ($tr) use ($namespace, $group, $locale, &$translations) {
-                $translations[$tr->key] = $tr->saved_value;
-            });
+            $jsonTranslations->each(
+                function ($tr) use ($namespace, $group, $locale, &$translations) {
+                    $translations[$tr->key] = $tr->saved_value;
+                }
+            );
         }
 
         return $translations;
     }
 
-    public
-    function importTranslations($replace, $groups = null)
+    public function importTranslations($replace, $groups = null)
     {
         // this can come from the command line
         if (is_array($groups)) {
@@ -1194,7 +1233,9 @@ class Manager
         foreach ($langFiles as $langFile => $vars) {
             $locale = $vars['{locale}'];
             $db_group = $vars['{db_group}'];
-            if (in_array($db_group, $this->config(self::EXCLUDE_GROUPS_KEY))) continue;
+            if (in_array($db_group, $this->config(self::EXCLUDE_GROUPS_KEY))) {
+                continue;
+            }
             if ($db_group === self::JSON_GROUP) {
                 $json = file_get_contents($langFile);
                 if ($locale !== 'json') {
@@ -1207,7 +1248,9 @@ class Manager
         $ltmJsonKeys = [];
         if ($jsonFiles) {
             $maxJsonKey = $this->config('json_dbkey_length', 32);
-            if ($maxJsonKey > 120) $maxJsonKey = 120;
+            if ($maxJsonKey > 120) {
+                $maxJsonKey = 120;
+            }
 
             // get only existing keys, any missing mapping may come from the imported files
             $this->loadLtmJsonKeys();
@@ -1244,7 +1287,9 @@ class Manager
         if ($groups !== null) {
             // now we can filter to the list of given groups or
             $files = [];
-            if (!is_array($groups)) $groups = array($groups);
+            if (!is_array($groups)) {
+                $groups = array($groups);
+            }
             $groups = array_combine($groups, $groups);
 
             foreach ($langFiles as $file => $values) {
@@ -1259,13 +1304,17 @@ class Manager
         foreach ($langFiles as $langFile => $vars) {
             $locale = $vars['{locale}'];
             $db_group = $vars['{db_group}'];
-            if ($locale == 'json') continue; // don't import keys. Use Database ones
-            if (in_array($db_group, $this->config(self::EXCLUDE_GROUPS_KEY))) continue;
+            if ($locale == 'json') {
+                continue; // don't import keys. Use Database ones
+            }
+            if (in_array($db_group, $this->config(self::EXCLUDE_GROUPS_KEY))) {
+                continue;
+            }
             if ($db_group === self::JSON_GROUP) {
                 // just update the locale with translations, keys are already LTM keys here
                 $translations = $jsonTranslations[$locale];
             } else {
-                $translations = array_dot(include($langFile));
+                $translations = Arr::dot(include $langFile);
             }
             $this->importTranslationFile($locale, $db_group, $translations, $replace);
         }
@@ -1273,11 +1322,12 @@ class Manager
         return $this->imported;
     }
 
-    public
-    function findTranslations($path = null)
+    public function findTranslations($path = null)
     {
         // functions is a replacement variable in $pattern
-        /** @noinspection PhpUnusedLocalVariableInspection */
+        /**
+         * @noinspection PhpUnusedLocalVariableInspection 
+         */
         $functions = config('laravel-translation-manager.find.functions');
         $pattern = implode('', config('laravel-translation-manager.find.pattern'));
 
@@ -1288,7 +1338,9 @@ class Manager
             $finder = new Finder();
             $finder->in($path)->name("*.{" . implode(',', config('laravel-translation-manager.find.files')) . "}")->files();
 
-            /** @var \Symfony\Component\Finder\SplFileInfo $file */
+            /**
+             * @var \Symfony\Component\Finder\SplFileInfo $file 
+             */
             foreach ($finder as $file) {
                 // Search the current file for the pattern
                 $fileContents = $file->getContents();
@@ -1298,8 +1350,9 @@ class Manager
                     foreach ($matches[3] as $index => $key) {
                         $quote = $matches[2][$index][0];
                         $keyValue = $key[0];
-                        if ($quote == '\'' && !str_contains($keyValue, ["\"", "'", "->",]) ||
-                            $quote == '"' && !str_contains($keyValue, ["$", "\"", "'", "->",])
+                        if (
+                            $quote == '\'' && !str_contains($keyValue, ["\"", "'", "->",])
+                            || $quote == '"' && !str_contains($keyValue, ["$", "\"", "'", "->",])
                         ) {
                             if ($fileLines == null) {
                                 $fileLines = self::computeFileLines($fileContents);
@@ -1342,8 +1395,7 @@ class Manager
         return $count;
     }
 
-    public
-    static function offsetLine($lines, $offset)
+    public static function offsetLine($lines, $offset)
     {
         $iMax = count($lines);
         for ($i = 0; $i < $iMax; $i++) {
@@ -1355,8 +1407,7 @@ class Manager
         return $iMax;
     }
 
-    public
-    static function computeFileLines($fileContents)
+    public static function computeFileLines($fileContents)
     {
         $lines = [];
         if (preg_match_all("/(\\n)/siU", $fileContents, $matches, PREG_PATTERN_ORDER | PREG_OFFSET_CAPTURE)) {
@@ -1367,8 +1418,7 @@ class Manager
         return $lines;
     }
 
-    public
-    function makeDirPath($path)
+    public function makeDirPath($path)
     {
         $directories = explode("/", $path);
         array_shift($directories);
@@ -1389,7 +1439,9 @@ class Manager
         // Build path and create directories if needed
         for ($k = 0; $k < count($directories); $k++) {
             $dirpath .= $directories[$k] . "/";
-            if ($k < $i) continue;
+            if ($k < $i) {
+                continue;
+            }
             if (!$this->files->exists($dirpath)) {
                 try {
                     $this->files->makeDirectory($dirpath);
@@ -1400,14 +1452,12 @@ class Manager
         }
     }
 
-    public
-    function clearErrors()
+    public function clearErrors()
     {
         $this->errors = [];
     }
 
-    public
-    function errors()
+    public function errors()
     {
         return $this->errors;
     }
@@ -1416,26 +1466,28 @@ class Manager
      * @param $group
      * @param $translations
      */
-    private
-    function cacheTranslationGroup($group, $translations): void
+    private function cacheTranslationGroup($group, $translations): void
     {
         $this->clearCache($group);
         $this->clearUsageCache(false, $group);
-        $translations->each(function ($tr) {
-            if ($tr->group === 'JSON' && $tr->locale === 'json') {
-                // we have to cache the reverse, we need jsonKey to ltmKey for this one
-                $this->cacheTranslation('', $tr->group, $tr->saved_value, $tr->key, $tr->locale);
-            } else {
-                $this->cacheTranslation('', $tr->group, $tr->key, $tr->saved_value, $tr->locale);
+        $translations->each(
+            function ($tr) {
+                if ($tr->group === 'JSON' && $tr->locale === 'json') {
+                    // we have to cache the reverse, we need jsonKey to ltmKey for this one
+                    $this->cacheTranslation('', $tr->group, $tr->saved_value, $tr->key, $tr->locale);
+                } else {
+                    $this->cacheTranslation('', $tr->group, $tr->key, $tr->saved_value, $tr->locale);
+                }
             }
-        });
+        );
     }
 
-    public
-    function exportTranslations($group, $fromAllTranslations = false)
+    public function exportTranslations($group, $fromAllTranslations = false)
     {
         assert($group && $group !== '*', "exportTranslations only exports one group at a time, given" . $group);
-        if (in_array($group, $this->config(self::EXCLUDE_GROUPS_KEY))) return;
+        if (in_array($group, $this->config(self::EXCLUDE_GROUPS_KEY))) {
+            return;
+        }
 
         $inDatabasePublishing = $this->inDatabasePublishing();
 
@@ -1465,12 +1517,14 @@ class Manager
             $this->translatorRepository->updatePublishTranslations(Translation::STATUS_SAVED_CACHED, $group);
 
             $translations = $this->translation->query()
-                ->where('status', '<>', Translation::STATUS_SAVED)->where('group', '=', $group)->get([
-                    'group',
-                    'key',
-                    'locale',
-                    'saved_value',
-                ]);
+                ->where('status', '<>', Translation::STATUS_SAVED)->where('group', '=', $group)->get(
+                    [
+                        'group',
+                        'key',
+                        'locale',
+                        'saved_value',
+                    ]
+                );
             /* @var $translations Collection */
             $this->cacheTranslationGroup($group, $translations);
         }
@@ -1566,8 +1620,7 @@ class Manager
         }
     }
 
-    public
-    function exportAllTranslations()
+    public function exportAllTranslations()
     {
         $groups = $this->translatorRepository->findFilledGroups();
 
@@ -1584,12 +1637,14 @@ class Manager
             // locked down file system or remote access to one
             $this->translatorRepository->updatePublishTranslations(Translation::STATUS_SAVED_CACHED);
 
-            $translations = $this->translation->query()->where('status', '<>', Translation::STATUS_SAVED)->get([
-                'group',
-                'key',
-                'locale',
-                'saved_value',
-            ]);
+            $translations = $this->translation->query()->where('status', '<>', Translation::STATUS_SAVED)->get(
+                [
+                    'group',
+                    'key',
+                    'locale',
+                    'saved_value',
+                ]
+            );
 
             /* @var $translations Collection */
             $this->cacheTranslationGroup(null, $translations);
@@ -1600,8 +1655,7 @@ class Manager
         }
     }
 
-    public
-    function zipTranslations($groups)
+    public function zipTranslations($groups)
     {
         $zip_name = @tempnam('Translations_' . time(), 'zip'); // Zip name
         $this->zipExporting = new ZipArchive();
@@ -1631,14 +1685,12 @@ class Manager
         return $zip_name;
     }
 
-    public
-    function cleanTranslations()
+    public function cleanTranslations()
     {
         $this->translation->query()->whereNull('value')->delete();
     }
 
-    public
-    function truncateTranslations($group = null)
+    public function truncateTranslations($group = null)
     {
         if ($group === '*' || $group === null) {
             $this->translation->query()->truncate();
@@ -1647,18 +1699,16 @@ class Manager
         }
     }
 
-    protected
-    function makeTree($translations)
+    protected function makeTree($translations)
     {
         $array = array();
         foreach ($translations as $translation) {
-            array_set($array[$translation->locale][$translation->group], $translation->key, $translation->value);
+            Arr::set($array[$translation->locale][$translation->group], $translation->key, $translation->value);
         }
         return $array;
     }
 
-    protected
-    function getLostDotTranslation($translations, $tree)
+    protected function getLostDotTranslation($translations, $tree)
     {
         // check if all translation values are in the array or some were lost because of invalid dot notation for keys 
         $nonArrays = array();

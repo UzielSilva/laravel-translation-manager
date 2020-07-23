@@ -20,8 +20,8 @@ class TranslationsPublished
     /**
      * Create a new event instance.
      *
-     * @param  string $groups group parameter, * if all groups, else group name
-     * @param  array  $errors array of errors encountered during publishing of translations
+     * @param string $groups group parameter, * if all groups, else group name
+     * @param array  $errors array of errors encountered during publishing of translations
      */
     public function __construct($groups, $errors)
     {

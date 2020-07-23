@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?= $currentLocale ?>">
+<html lang="<?php echo $currentLocale ?>">
 <?php use Vsch\TranslationManager\ManagerServiceProvider; $public_prefix = ManagerServiceProvider::PUBLIC_PREFIX; ?>
 <head>
     <meta charset="utf-8">
@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Vladimir Schneider">
     <link rel="icon" href="{{asset('/images/favicon.png')}}">
-    <meta name="description" content="<?=noEditTrans('laravel-translation-manager::messages.translation-manager')?>">
-    <meta name="csrf-token" content="<?= csrf_token() ?>"/>
+    <meta name="description" content="<?php echo noEditTrans('laravel-translation-manager::messages.translation-manager')?>">
+    <meta name="csrf-token" content="<?php echo csrf_token() ?>"/>
     {{--<!-- Bootstrap core CSS -->--}}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <link href="<?= $public_prefix ?>laravel-translation-manager/css/translations.css" rel="stylesheet">
+    <link href="<?php echo $public_prefix ?>laravel-translation-manager/css/translations.css" rel="stylesheet">
     @if(isInPlaceEditing(2))
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
                 type='text/css'>
@@ -42,9 +42,9 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>--}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<script src="<?= $public_prefix ?>laravel-translation-manager/js/rails.min.js"></script>
-<script src="<?= $public_prefix ?>laravel-translation-manager/js/inflection.js"></script>
-<script src="<?= $public_prefix ?>laravel-translation-manager/js/translations.js"></script>
+<script src="<?php echo $public_prefix ?>laravel-translation-manager/js/rails.min.js"></script>
+<script src="<?php echo $public_prefix ?>laravel-translation-manager/js/inflection.js"></script>
+<script src="<?php echo $public_prefix ?>laravel-translation-manager/js/translations.js"></script>
 @yield('body-bottom')
 </body>
 </html>

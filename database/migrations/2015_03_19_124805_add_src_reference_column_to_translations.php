@@ -13,10 +13,12 @@ class AddSrcReferenceColumnToTranslations extends Migration
      */
     public function up()
     {
-        Schema::table('ltm_translations', function (Blueprint $table) {
-            $table->string('source', 256)->nullable();
-            $table->unique(['locale', 'group', 'key'], 'ixk_ltm_translations_locale_group_key');
-        });
+        Schema::table(
+            'ltm_translations', function (Blueprint $table) {
+                $table->string('source', 256)->nullable();
+                $table->unique(['locale', 'group', 'key'], 'ixk_ltm_translations_locale_group_key');
+            }
+        );
     }
 
     /**
@@ -26,9 +28,11 @@ class AddSrcReferenceColumnToTranslations extends Migration
      */
     public function down()
     {
-        Schema::table('ltm_translations', function (Blueprint $table) {
-            $table->dropColumn('source');
-            $table->dropUnique('ixk_ltm_translations_locale_group_key');
-        });
+        Schema::table(
+            'ltm_translations', function (Blueprint $table) {
+                $table->dropColumn('source');
+                $table->dropUnique('ixk_ltm_translations_locale_group_key');
+            }
+        );
     }
 }

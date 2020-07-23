@@ -17,11 +17,15 @@
     ],
     "require": {
         "php": ">=7.2.5",
-        "illuminate/support": "^7.0",
+        "illuminate/support": "^7.21",
         "laravelcollective/html": "^6.1",
         "illuminate/translation": "^7.2",
         "doctrine/dbal": "^2.10",
-        "symfony/finder": "^5.0"
+        "symfony/finder": "^5.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "illuminate/console": "^7.21",
+        "illuminate/queue": "^7.21",
+        "illuminate/events": "^7.21"
     },
     "require-dev": {
         "phpspec/phpspec": "~6.1",

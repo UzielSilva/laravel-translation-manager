@@ -19,7 +19,7 @@ use Vsch\TranslationManager\Events\TranslationsPublished;
 use Vsch\TranslationManager\Models\Translation;
 use Vsch\TranslationManager\Models\UserLocales;
 
-include_once(__DIR__ . '/Support/finediff.php');
+require_once __DIR__ . '/Support/finediff.php';
 
 class Controller extends BaseController
 {
@@ -32,7 +32,9 @@ class Controller extends BaseController
     const COOKIE_TRANS_FILTERS = 'trans-filters';
     const COOKIE_SHOW_UNPUBLISHED = 'show-unpublished';
 
-    /** @var \Vsch\TranslationManager\Manager */
+    /**
+     * @var \Vsch\TranslationManager\Manager 
+     */
     protected $manager;
     protected $packagePrefix;
     protected $package;
@@ -73,11 +75,13 @@ class Controller extends BaseController
         $this->cookiePrefix = $this->manager->config('persistent_prefix', 'K9N6YPi9WHwKp6E3jGbx');
 
         // cookies are not available yet (they are but appear to be encrypted). They will be by the time middleware is called 
-        $this->middleware(function ($request, $next) {
-            $this->manager->setWebUI(); // no need to clear
-            $this->initialize();
-            return $next($request);
-        });
+        $this->middleware(
+            function ($request, $next) {
+                $this->manager->setWebUI(); // no need to clear
+                $this->initialize();
+                return $next($request);
+            }
+        );
     }
 
     private function initialize()
@@ -92,7 +96,7 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $t
+     * @param  $t
      * @return bool
      */
     public function isJsonKeyLocale($t): bool
@@ -122,7 +126,8 @@ class Controller extends BaseController
      */
     public function changeConnectionName($connection)
     {
-        if (!array_key_exists($connection, $this->connectionList)) $connection = '';
+        if (!array_key_exists($connection, $this->connectionList)) { $connection = '';
+        }
 
         $resolvedConnection = $this->manager->getResolvedConnectionName($connection);
         if ($resolvedConnection != $this->getConnectionName()) {
@@ -244,9 +249,11 @@ class Controller extends BaseController
     public function isLocaleEnabled($locale)
     {
         $packLocales = TranslationLocales::packLocales($this->transLocales->userLocales);
-        if (!is_array($locale)) $locale = array($locale);
+        if (!is_array($locale)) { $locale = array($locale);
+        }
         foreach ($locale as $item) {
-            if (!str_contains($packLocales, ',' . $item . ',')) return false;
+            if (!str_contains($packLocales, ',' . $item . ',')) { return false;
+            }
         }
         return true;
     }
@@ -392,7 +399,8 @@ class Controller extends BaseController
     public function getToggleInPlaceEdit()
     {
         inPlaceEditing(!inPlaceEditing());
-        if (App::runningUnitTests()) return Redirect::to('/');
+        if (App::runningUnitTests()) { return Redirect::to('/');
+        }
         return !is_null(Request::header('referer')) ? Redirect::back() : Redirect::to('/');
     }
 
@@ -401,7 +409,8 @@ class Controller extends BaseController
         /* @var $translator Translator */
         $translator = App::make('translator');
         $translator->setShowUnpublished(!$translator->getShowUnpublished());
-        if (App::runningUnitTests()) return Redirect::to('/');
+        if (App::runningUnitTests()) { return Redirect::to('/');
+        }
         return !is_null(Request::header('referer')) ? Redirect::back() : Redirect::to('/');
     }
 
@@ -468,10 +477,12 @@ class Controller extends BaseController
         Cookie::queue($this->cookieName(self::COOKIE_TRANS_FILTERS), json_encode($this->transFilters), 60 * 24 * 365 * 1);
 
         if (Request::wantsJson()) {
-            return Response::json(array(
+            return Response::json(
+                array(
                 'status' => 'ok',
                 'transFilters' => $this->transFilters,
-            ));
+                )
+            );
         }
 
         return !is_null(Request::header('referer')) ? Redirect::back() : Redirect::to('/');
@@ -485,7 +496,8 @@ class Controller extends BaseController
                 $suffixes = explode("\n", trim(Request::get('suffixes')));
                 $group = explode('::', $group, 2);
                 $namespace = '*';
-                if (count($group) > 1) $namespace = array_shift($group);
+                if (count($group) > 1) { $namespace = array_shift($group);
+                }
                 $group = $group[0];
 
                 $this->manager->setWebUI(true); // we want these to create json keys
@@ -515,7 +527,8 @@ class Controller extends BaseController
                 $keys = explode("\n", trim(Request::get('keys')));
                 $suffixes = explode("\n", trim(Request::get('suffixes')));
 
-                if (count($suffixes) === 1 && $suffixes[0] === '') $suffixes = [];
+                if (count($suffixes) === 1 && $suffixes[0] === '') { $suffixes = [];
+                }
 
                 foreach ($keys as $key) {
                     $key = trim($key);
@@ -553,15 +566,21 @@ class Controller extends BaseController
             $srckeys = explode("\n", trim(Request::get('srckeys')));
             $dstkeys = explode("\n", trim(Request::get('dstkeys')));
 
-            array_walk($srckeys, function (&$val, $key) use (&$srckeys) {
-                $val = trim($val);
-                if ($val === '') unset($srckeys[$key]);
-            });
+            array_walk(
+                $srckeys, function (&$val, $key) use (&$srckeys) {
+                    $val = trim($val);
+                    if ($val === '') { unset($srckeys[$key]);
+                    }
+                }
+            );
 
-            array_walk($dstkeys, function (&$val, $key) use (&$dstkeys) {
-                $val = trim($val);
-                if ($val === '') unset($dstkeys[$key]);
-            });
+            array_walk(
+                $dstkeys, function (&$val, $key) use (&$dstkeys) {
+                    $val = trim($val);
+                    if ($val === '') { unset($dstkeys[$key]);
+                    }
+                }
+            );
 
             if (!$group) {
                 $errors[] = trans($this->packagePrefix . 'messages.keyop-need-group');
@@ -612,9 +631,11 @@ class Controller extends BaseController
                     foreach ($keys as $src => $dst) {
                         $rows = $keymap[$src]['rows'];
 
-                        $rowids = array_reduce($rows, function ($carry, $row) {
-                            return $carry . ',' . $row->id;
-                        }, '');
+                        $rowids = array_reduce(
+                            $rows, function ($carry, $row) {
+                                return $carry . ',' . $row->id;
+                            }, ''
+                        );
                         $rowids = substr($rowids, 1);
 
                         list($srcgrp, $srckey) = self::keyGroup($group, $src);
@@ -757,8 +778,10 @@ class Controller extends BaseController
     {
         $replace = Request::get('replace', false);
         // the group publish form has no select for replace, it is always false, react does have it
-        $counter = $this->manager->importTranslations($group === '*' ? $replace : ($this->manager->inDatabasePublishing() == 1 ? 0 : $replace)
-            , $group === '*' ? null : [$group]);
+        $counter = $this->manager->importTranslations(
+            $group === '*' ? $replace : ($this->manager->inDatabasePublishing() == 1 ? 0 : $replace),
+            $group === '*' ? null : [$group]
+        );
         return Response::json(array('status' => 'ok', 'counter' => $counter));
     }
 
@@ -767,15 +790,18 @@ class Controller extends BaseController
         $replace = Request::get('replace', false);
         $group = Request::get('group', '*');
         $this->manager->clearErrors();
-        $counter = $this->manager->importTranslations($group === '*' ? $replace : ($this->manager->inDatabasePublishing() == 1 ? 0 : $replace)
-            , $group === '*' ? null : [$group]);
+        $counter = $this->manager->importTranslations(
+            $group === '*' ? $replace : ($this->manager->inDatabasePublishing() == 1 ? 0 : $replace),
+            $group === '*' ? null : [$group]
+        );
         $errors = $this->manager->errors();
         return Response::json(array('status' => 'ok', 'counter' => $counter, 'errors' => $errors));
     }
 
     /**
      * Test for postPublish
-     * @param $group
+     *
+     * @param  $group
      * @return \Illuminate\Http\JsonResponse
      */
     public function getPublish($group)
@@ -853,10 +879,12 @@ class Controller extends BaseController
         Cookie::queue($this->cookieName(self::COOKIE_TRANS_FILTERS), json_encode($this->transFilters), 60 * 24 * 365 * 1);
 
         if (Request::wantsJson()) {
-            return Response::json(array(
+            return Response::json(
+                array(
                 'status' => 'ok',
                 'transFilters' => $this->transFilters,
-            ));
+                )
+            );
         }
 
         return Response::json(array('status' => 'ok'));
@@ -1099,16 +1127,18 @@ class Controller extends BaseController
             $translations = $fileTranslations;
         }
 
-        $jsonResponse = Response::json(array(
+        $jsonResponse = Response::json(
+            array(
             'connectionName' => '',
             $group => $translations,
-        ), 200, [], JSON_UNESCAPED_SLASHES | $pretty);
+            ), 200, [], JSON_UNESCAPED_SLASHES | $pretty
+        );
         return $jsonResponse;
     }
 
     /**
      * @param $connection
-     * @param $callback callable
+     * @param $callback   callable
      */
     public function useConnection($connection, $callback = null)
     {
@@ -1121,7 +1151,9 @@ class Controller extends BaseController
             $normalize = true;
         }
 
-        /** @var callable $callback */
+        /**
+ * @var callable $callback 
+*/
         if ($callback) {
             $callback();
             $normalize = true;
@@ -1135,11 +1167,13 @@ class Controller extends BaseController
     public function apiTranslationTable($group)
     {
         $connection = Request::get('connectionName');
-        $this->useConnection($connection, function () {
-            $this->transLocales->primaryLocale = Request::get('primaryLocale');
-            $this->transLocales->translatingLocale = Request::get('translatingLocale');
-            $this->transLocales->displayLocales = Request::get('displayLocales');
-        });
+        $this->useConnection(
+            $connection, function () {
+                $this->transLocales->primaryLocale = Request::get('primaryLocale');
+                $this->transLocales->translatingLocale = Request::get('translatingLocale');
+                $this->transLocales->displayLocales = Request::get('displayLocales');
+            }
+        );
 
         // now we can use them
         $locales = $this->transLocales->locales;
@@ -1392,9 +1426,11 @@ class Controller extends BaseController
     public function apiSummary()
     {
         $connection = Request::get('connectionName');
-        $this->useConnection($connection, function () {
-            $this->transLocales->displayLocales = Request::get('displayLocales');
-        });
+        $this->useConnection(
+            $connection, function () {
+                $this->transLocales->displayLocales = Request::get('displayLocales');
+            }
+        );
 
         $summary = $this->computeSummary($this->transLocales->displayLocales);
         $data = [
@@ -1409,9 +1445,11 @@ class Controller extends BaseController
     public function apiUserList()
     {
         $connection = Request::get('connectionName');
-        $this->useConnection($connection, function () {
-            $this->transLocales->displayLocales = Request::get('displayLocales');
-        });
+        $this->useConnection(
+            $connection, function () {
+                $this->transLocales->displayLocales = Request::get('displayLocales');
+            }
+        );
 
         $summary = $this->computeUserList();
         $data = [
@@ -1436,7 +1474,8 @@ class Controller extends BaseController
                 $suffixes = explode("\n", trim(Request::get('suffixes')));
                 $group = explode('::', $group, 2);
                 $namespace = '*';
-                if (count($group) > 1) $namespace = array_shift($group);
+                if (count($group) > 1) { $namespace = array_shift($group);
+                }
                 $group = $group[0];
 
                 $this->manager->setWebUI(true); // we want these to create json keys
@@ -1471,7 +1510,8 @@ class Controller extends BaseController
                 $keys = explode("\n", trim(Request::get('keys')));
                 $suffixes = explode("\n", trim(Request::get('suffixes')));
 
-                if (count($suffixes) === 1 && $suffixes[0] === '') $suffixes = [];
+                if (count($suffixes) === 1 && $suffixes[0] === '') { $suffixes = [];
+                }
 
                 foreach ($keys as $key) {
                     $key = trim($key);
@@ -1662,10 +1702,12 @@ class Controller extends BaseController
         Cookie::queue($this->cookieName(self::COOKIE_TRANS_FILTERS), json_encode($this->transFilters), 60 * 24 * 365 * 1);
 
         if (Request::wantsJson()) {
-            return Response::json(array(
+            return Response::json(
+                array(
                 'status' => 'ok',
                 'transFilters' => $this->transFilters,
-            ));
+                )
+            );
         }
 
         return Response::json(array('status' => 'ok'));
@@ -1683,11 +1725,13 @@ class Controller extends BaseController
 
             list($locale, $key) = explode('|', $name, 2);
             if ($this->isLocaleEnabled($locale)) {
-                $translation = $this->manager->firstOrNewTranslation(array(
+                $translation = $this->manager->firstOrNewTranslation(
+                    array(
                     'locale' => $locale,
                     'group' => $group,
                     'key' => $key,
-                ));
+                    )
+                );
 
                 $markdownSuffix = $this->manager->config(Manager::MARKDOWN_KEY_SUFFIX);
                 $isMarkdownKey = $markdownSuffix != '' && ends_with($key, $markdownSuffix) && $key !== $markdownSuffix;
@@ -1709,11 +1753,13 @@ class Controller extends BaseController
 
                     $key = substr($markdownKey, 0, -strlen($markdownSuffix));
 
-                    $translation = $this->manager->firstOrNewTranslation(array(
+                    $translation = $this->manager->firstOrNewTranslation(
+                        array(
                         'locale' => $locale,
                         'group' => $group,
                         'key' => $key,
-                    ));
+                        )
+                    );
 
                     $value = $markdownValue !== null ? \Markdown::convertToHtml(str_replace("\xc2\xa0", ' ', $markdownValue)) : null;
 
@@ -1756,10 +1802,12 @@ class Controller extends BaseController
 
     public function postYandexKey()
     {
-        return Response::json(array(
+        return Response::json(
+            array(
             'status' => 'ok',
             'yandex_key' => $this->manager->config('yandex_translator_key', null),
-        ));
+            )
+        );
     }
 
     public function postUserLocales()
@@ -1785,7 +1833,7 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $displayLocales array
+     * @param  $displayLocales array
      * @return array
      */
     private function computeSummary($displayLocales): array
@@ -1825,8 +1873,8 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $primaryLocale
-     * @param $translatingLocale
+     * @param  $primaryLocale
+     * @param  $translatingLocale
      * @return array
      */
     private function computeMismatches($primaryLocale, $translatingLocale): array
@@ -1880,7 +1928,8 @@ class Controller extends BaseController
                 $primaryList = [];
             }
 
-            if ($mismatch->key === '') break;
+            if ($mismatch->key === '') { break;
+            }
 
             if (!isset($primaryList[$mismatch->en])) {
                 $primaryList[$mismatch->en] = 1;
@@ -1946,17 +1995,18 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $searchText
-     * @param array|null $displayLocales
+     * @param  $searchText
+     * @param  array|null $displayLocales
      * @return array
      */
     private function computeSearch($searchText, $displayLocales = null): array
     {
-        if (trim($searchText) === '') $translations = [];
-        else {
+        if (trim($searchText) === '') { $translations = [];
+        } else {
             $displayWhere = $displayLocales ? " AND locale IN ('" . implode("','", $displayLocales) . "') AND locale <> 'json'" : " AND locale <> 'json'";
 
-            if (strpos($searchText, '%') === false) $searchText = "%$searchText%";
+            if (strpos($searchText, '%') === false) { $searchText = "%$searchText%";
+            }
 
             // need to fill-in missing locale's that match the key
             $translations = $this->translatorRepository->searchByRequest($searchText, $displayWhere, 500);
@@ -1987,9 +2037,9 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $translations
-     * @param $key
-     * @param $locale
+     * @param  $translations
+     * @param  $key
+     * @param  $locale
      * @return string|null
      */
     private function getPrimaryValue($translations, $key, $locale)

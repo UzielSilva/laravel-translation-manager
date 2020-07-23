@@ -128,7 +128,6 @@ return array(
      * if the user can manage per locale access with an array of objects with: id, email,
      * and name fields that correspond to the list of users to be displayed in the web UI
      * to allow the current admin user to manage per locale access.
-     *
      */
     //'user_list_provider' => null,
     /**
@@ -202,7 +201,6 @@ return array(
      * 10 - means 1 in 10 users
      * 100 - 1 in a 100 users
      * 1000 ....
-     *
      */
     'missing_keys_lottery' => 100, // 1 in 100 of users will have the missing translation keys logged.
 
@@ -257,7 +255,6 @@ return array(
      * @type string     connection name to use for the default connection
      *
      * if blank, null or not defined then default connection will be used.
-     *
      */
 
     'default_connection' => null,
@@ -268,7 +265,6 @@ return array(
      * @type string     Yandex translation key
      *
      * This key is free to obtain and use but is required to enable Yandex translations. Visit: https://tech.yandex.com/translate/
-     *
      */
 
     'yandex_translator_key' => '',
@@ -380,16 +376,16 @@ return array(
         ],
 
         // this will make LTM translation importable as wbn:vsch.laravel-translation-manager.messages
-//        'vendor' => [
-//            'include' => ['vsch/laravel-translation-manager'],
-//            'root' => '/vendor/{vendor}/{package}',
-//            'files' => 'resources/lang/{locale}/{group}',
-//        ],
-//
-//        'vsch/laravel-translation-manager' => [
-//            '__merge' => ['workbench', 'vendor',],
-//            'db_group' => 'wbn:{vendor}.{package}::{group}',
-//        ],
+        //        'vendor' => [
+        //            'include' => ['vsch/laravel-translation-manager'],
+        //            'root' => '/vendor/{vendor}/{package}',
+        //            'files' => 'resources/lang/{locale}/{group}',
+        //        ],
+        //
+        //        'vsch/laravel-translation-manager' => [
+        //            '__merge' => ['workbench', 'vendor',],
+        //            'db_group' => 'wbn:{vendor}.{package}::{group}',
+        //        ],
     
         /*
         * add packages that need special mapping to their language files because they don't use the standard Laravel
@@ -426,12 +422,10 @@ return array(
         ],
     ),
     /**
-     *
      * Provide the prefix for the root of the zip file
      * if a path from language_dirs does not start with this prefix then language files exported
      * for that part will include the full path. Therefore define the most common root path
      * / means application root.
-     *
      */
     'zip_root' => '/resources',
     

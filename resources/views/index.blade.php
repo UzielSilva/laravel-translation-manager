@@ -8,7 +8,7 @@
                     <div class="col-sm-12">
                         <h1>@lang($package . '::messages.translation-manager')
                             @if(!$disableUiLink)
-                                <a style='float: right; font-size: 14px;' href='<?= action($controller . '@getUI', []) ?>'>@lang($package . '::messages.try-new-ui')</a>
+                                <a style='float: right; font-size: 14px;' href='<?php echo action($controller . '@getUI', []) ?>'>@lang($package . '::messages.try-new-ui')</a>
                             @endif
                         </h1>
                         {{-- csrf_token() --}}
@@ -25,7 +25,7 @@
                             <div class="errors-alert">
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang('$package::messages.import-all-done')") ?>
+                        <?php echo ifInPlaceEdit("@lang('$package::messages.import-all-done')") ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -34,7 +34,7 @@
                                 <p>@lang($package . '::messages.import-all-done')</p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang('$package::messages.import-group-done')", ['group' => $group]) ?>
+                        <?php echo ifInPlaceEdit("@lang('$package::messages.import-group-done')", ['group' => $group]) ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -43,7 +43,7 @@
                                 <p>@lang($package . '::messages.import-group-done', ['group' => $group]) </p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang('$package::messages.search-done')") ?>
+                        <?php echo ifInPlaceEdit("@lang('$package::messages.search-done')") ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -52,7 +52,7 @@
                                 <p>@lang($package . '::messages.search-done')</p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang('$package::messages.done-publishing')", ['group' => $group]) ?>
+                        <?php echo ifInPlaceEdit("@lang('$package::messages.done-publishing')", ['group' => $group]) ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -61,7 +61,7 @@
                                 <p>@lang($package . '::messages.done-publishing', ['group'=> $group])</p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang('$package::messages.done-publishing-all')") ?>
+                        <?php echo ifInPlaceEdit("@lang('$package::messages.done-publishing-all')") ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -86,59 +86,59 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <form id="form-import-all" class="form-import-all" method="POST"
-                                            action="<?= action($controller . '@postImport', ['group' => '*']) ?>"
+                                            action="<?php echo action($controller . '@postImport', ['group' => '*']) ?>"
                                             data-remote="true" role="form">
                                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <?= ifEditTrans($package . '::messages.import-add') ?>
-                                                <?= ifEditTrans($package . '::messages.import-replace') ?>
-                                                <?= ifEditTrans($package . '::messages.import-fresh') ?>
+                                                <?php echo ifEditTrans($package . '::messages.import-add') ?>
+                                                <?php echo ifEditTrans($package . '::messages.import-replace') ?>
+                                                <?php echo ifEditTrans($package . '::messages.import-fresh') ?>
                                                 <div class="input-group-sm">
                                                     <select name="replace" class="import-select form-control">
-                                                        <option value="0"><?= noEditTrans($package . '::messages.import-add') ?></option>
-                                                        <option value="1"><?= noEditTrans($package . '::messages.import-replace') ?></option>
-                                                        <option value="2"><?= noEditTrans($package . '::messages.import-fresh') ?></option>
+                                                        <option value="0"><?php echo noEditTrans($package . '::messages.import-add') ?></option>
+                                                        <option value="1"><?php echo noEditTrans($package . '::messages.import-replace') ?></option>
+                                                        <option value="2"><?php echo noEditTrans($package . '::messages.import-fresh') ?></option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <?= ifEditTrans($package . '::messages.import-all-groups') ?>
-                                                <?= ifEditTrans($package . '::messages.loading') ?>
+                                                <?php echo ifEditTrans($package . '::messages.import-all-groups') ?>
+                                                <?php echo ifEditTrans($package . '::messages.loading') ?>
                                                 <button id="submit-import-all" type="submit" form="form-import-all"
                                                         class="btn btn-sm btn-success"
-                                                        data-disable-with="<?= noEditTrans($package . '::messages.loading') ?>">
-                                                    <?= noEditTrans($package . '::messages.import-all-groups') ?>
+                                                        data-disable-with="<?php echo noEditTrans($package . '::messages.loading') ?>">
+                                                    <?php echo noEditTrans($package . '::messages.import-all-groups') ?>
                                                 </button>
-                                                <?= ifEditTrans($package . '::messages.zip-all') ?>
-                                                <a href="<?= action($controller . '@getZippedTranslations', ['group' => '*']) ?>"
+                                                <?php echo ifEditTrans($package . '::messages.zip-all') ?>
+                                                <a href="<?php echo action($controller . '@getZippedTranslations', ['group' => '*']) ?>"
                                                         role="button" class="btn btn-primary btn-sm">
-                                                    <?= noEditTrans($package . '::messages.zip-all') ?>
+                                                    <?php echo noEditTrans($package . '::messages.zip-all') ?>
                                                 </a>
                                                 <div class="input-group" style="float:right; display:inline">
-                                                    <?= ifEditTrans($package . '::messages.publish-all-groups') ?>
-                                                    <?= ifEditTrans($package . '::messages.publishing') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.publish-all-groups') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.publishing') ?>
                                                     <button type="submit" form="form-publish-all"
                                                             class="btn btn-sm btn-warning input-control"
-                                                            data-disable-with="<?= noEditTrans($package . '::messages.publishing') ?>">
-                                                        <?= noEditTrans($package . '::messages.publish-all-groups') ?>
+                                                            data-disable-with="<?php echo noEditTrans($package . '::messages.publishing') ?>">
+                                                        <?php echo noEditTrans($package . '::messages.publish-all-groups') ?>
                                                     </button>
-                                                    <?= ifEditTrans($package . '::messages.add-references') ?>
-                                                    <?= ifEditTrans($package . '::messages.searching') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.add-references') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.searching') ?>
                                                     <button type="submit" form="form-find"
                                                             class="btn btn-sm btn-danger"
-                                                            data-disable-with="<?= noEditTrans($package . '::messages.searching') ?>">
-                                                        <?= noEditTrans($package . '::messages.add-references') ?>
+                                                            data-disable-with="<?php echo noEditTrans($package . '::messages.searching') ?>">
+                                                        <?php echo noEditTrans($package . '::messages.add-references') ?>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
-                                    <?= ifEditTrans($package . '::messages.confirm-find') ?>
+                                    <?php echo ifEditTrans($package . '::messages.confirm-find') ?>
                                     <form id="form-find" class="form-inline form-find" method="POST"
-                                            action="<?= action($controller . '@postFind') ?>"
+                                            action="<?php echo action($controller . '@postFind') ?>"
                                             data-remote="true" role="form"
-                                            data-confirm="<?= noEditTrans($package . '::messages.confirm-find') ?>">
+                                            data-confirm="<?php echo noEditTrans($package . '::messages.confirm-find') ?>">
                                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     </form>
                                 </div>
@@ -153,80 +153,82 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <?= ifEditTrans($package . '::messages.choose-group'); ?>
+                                        <?php echo ifEditTrans($package . '::messages.choose-group'); ?>
                                         <div class="input-group-sm">
-                                            <?= Form::select('group', $groups, $group, array(
+                                            <?php echo Form::select(
+                                                'group', $groups, $group, array(
                                                 'form' => 'form-select', 'class' => 'group-select form-control'
-                                            )) ?>
+                                                )
+                                            ) ?>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <?php if ($adminEnabled): ?>
-                                        <?php if ($group): ?>
-                                        <?= ifEditTrans($package . '::messages.publishing') ?>
-                                        <?= ifEditTrans($package . '::messages.publish') ?>
+                                        <?php if ($adminEnabled) : ?>
+                                            <?php if ($group) : ?>
+                                                <?php echo ifEditTrans($package . '::messages.publishing') ?>
+                                                <?php echo ifEditTrans($package . '::messages.publish') ?>
                                         <button type="submit" form="form-publish-group"
                                                 class="btn btn-sm btn-info input-control"
-                                                data-disable-with="<?= noEditTrans($package . '::messages.publishing') ?>">
-                                            <?= noEditTrans($package . '::messages.publish') ?>
+                                                data-disable-with="<?php echo noEditTrans($package . '::messages.publishing') ?>">
+                                                <?php echo noEditTrans($package . '::messages.publish') ?>
                                         </button>
-                                        <?= ifEditTrans($package . '::messages.zip-group') ?>
-                                        <a href="<?= action($controller . '@getZippedTranslations', ['group' => $group]) ?>"
+                                                <?php echo ifEditTrans($package . '::messages.zip-group') ?>
+                                        <a href="<?php echo action($controller . '@getZippedTranslations', ['group' => $group]) ?>"
                                                 role="button" class="btn btn-primary btn-sm">
-                                            <?= noEditTrans($package . '::messages.zip-group') ?>
+                                                <?php echo noEditTrans($package . '::messages.zip-group') ?>
                                         </a>
-                                        <?= ifEditTrans($package . '::messages.search'); ?>
+                                                <?php echo ifEditTrans($package . '::messages.search'); ?>
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                                data-target="#searchModal"><?= noEditTrans($package . '::messages.search') ?></button>
-                                        <?php endif; ?>
+                                                data-target="#searchModal"><?php echo noEditTrans($package . '::messages.search') ?></button>
+                                            <?php endif; ?>
                                         <div class="input-group" style="float:right; display:inline">
-                                            <?php if ($group): ?>
-                                            <?= ifEditTrans($package . '::messages.import-group') ?>
-                                            <?= ifEditTrans($package . '::messages.loading') ?>
+                                            <?php if ($group) : ?>
+                                                <?php echo ifEditTrans($package . '::messages.import-group') ?>
+                                                <?php echo ifEditTrans($package . '::messages.loading') ?>
                                             <button type="submit" form="form-import-group" class="btn btn-sm btn-success"
-                                                    data-disable-with="<?= noEditTrans($package . '::messages.loading') ?>">
-                                                <?= noEditTrans($package . '::messages.import-group') ?>
+                                                    data-disable-with="<?php echo noEditTrans($package . '::messages.loading') ?>">
+                                                <?php echo noEditTrans($package . '::messages.import-group') ?>
                                             </button>
-                                            <?= ifEditTrans($package . '::messages.delete-group') ?>
-                                            <?= ifEditTrans($package . '::messages.deleting') ?>
+                                                <?php echo ifEditTrans($package . '::messages.delete-group') ?>
+                                                <?php echo ifEditTrans($package . '::messages.deleting') ?>
                                             <button type="submit" form="form-delete-group" class="btn btn-sm btn-danger"
-                                                    data-disable-with="<?= noEditTrans($package . '::messages.deleting') ?>">
-                                                <?= noEditTrans($package . '::messages.delete-group') ?>
+                                                    data-disable-with="<?php echo noEditTrans($package . '::messages.deleting') ?>">
+                                                <?php echo noEditTrans($package . '::messages.delete-group') ?>
                                             </button>
                                             <?php endif; ?>
                                         </div>
                                         <?php else: ?>
-                                        <?php if ($group): ?>
-                                        <?= ifEditTrans($package . '::messages.search'); ?>
+                                            <?php if ($group) : ?>
+                                                <?php echo ifEditTrans($package . '::messages.search'); ?>
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                                data-target="#searchModal"><?= noEditTrans($package . '::messages.search') ?></button>
-                                        <?php endif; ?>
+                                                data-target="#searchModal"><?php echo noEditTrans($package . '::messages.search') ?></button>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </div>
-                                    <?php if ($group): ?>
-                                        <?= ifEditTrans($package . '::messages.confirm-delete') ?>
+                                    <?php if ($group) : ?>
+                                        <?php echo ifEditTrans($package . '::messages.confirm-delete') ?>
                                         <form id="form-delete-group" class="form-inline form-delete-group" method="POST"
-                                                action="<?= action($controller . '@postDeleteAll', $group) ?>"
+                                                action="<?php echo action($controller . '@postDeleteAll', $group) ?>"
                                                 data-remote="true" role="form"
-                                                data-confirm="<?= noEditTrans($package . '::messages.confirm-delete', ['group' => $group]) ?>">
+                                                data-confirm="<?php echo noEditTrans($package . '::messages.confirm-delete', ['group' => $group]) ?>">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                         </form>
                                         <form id="form-import-group" class="form-inline form-import-group" method="POST"
-                                                action="<?= action($controller . '@postImport', $group) ?>"
+                                                action="<?php echo action($controller . '@postImport', $group) ?>"
                                                 data-remote="true" role="form">
                                             <input type="hidden" name="_token"
                                                     value="<?php echo csrf_token(); ?>">
                                         </form>
                                         <form role="form" class="form" id="form-select"></form>
                                         <form id="form-publish-group" class="form-inline form-publish-group" method="POST"
-                                                action="<?= action($controller . '@postPublish', $group) ?>"
+                                                action="<?php echo action($controller . '@postPublish', $group) ?>"
                                                 data-remote="true" role="form">
                                             <input type="hidden" name="_token"
                                                     value="<?php echo csrf_token(); ?>">
                                         </form>
                                     <?php endif; ?>    
                                     <form id="form-publish-all" class="form-inline form-publish-all" method="POST"
-                                            action="<?= action($controller . '@postPublish', '*') ?>"
+                                            action="<?php echo action($controller . '@postPublish', '*') ?>"
                                             data-remote="true" role="form">
                                         <input type="hidden" name="_token"
                                                 value="<?php echo csrf_token(); ?>">
@@ -236,16 +238,16 @@
                         </div>
                         <div style="min-height: 10px"></div>
                         <div class="row">
-                            <?php if(!$group): ?>
+                            <?php if(!$group) : ?>
                             <div class="col-sm-10">
                                 <p>@lang($package . '::messages.choose-group-text')</p>
                             </div>
                             <div class="col-sm-2">
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                                         data-target="#searchModal" style="float:right; display:inline">
-                                    <?= noEditTrans($package . '::messages.search') ?>
+                                    <?php echo noEditTrans($package . '::messages.search') ?>
                                 </button>
-                                <?= ifEditTrans($package . '::messages.search') ?>
+                                <?php echo ifEditTrans($package . '::messages.search') ?>
                             </div>
                             <?php endif; ?>
                         </div>
@@ -258,17 +260,17 @@
                     <div class="col-sm-12">
                         <div style="min-height: 10px"></div>
                         <form class="form-inline" id="form-interface-locale" method="GET"
-                                action="<?= action($controller . '@getTranslationLocales') ?>">
+                                action="<?php echo action($controller . '@getTranslationLocales') ?>">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="row">
                                 <div class=" col-sm-3">
                                     @if($adminEnabled && count($connection_list) > 1)
                                         <div class="input-group-sm">
-                                            <label for="db-connection"><?= trans($package . '::messages.db-connection') ?>:</label>
+                                            <label for="db-connection"><?php echo trans($package . '::messages.db-connection') ?>:</label>
                                             <br>
                                             <select name="c" id="db-connection" class="form-control">
                                                 @foreach($connection_list as $connection => $description)
-                                                    <option value="<?=$connection?>"<?= $connection_name === $connection ? ' selected="selected"' : ''?>><?= $description ?></option>
+                                                    <option value="<?php echo $connection?>"<?php echo $connection_name === $connection ? ' selected="selected"' : ''?>><?php echo $description ?></option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -278,23 +280,23 @@
                                 </div>
                                 <div class=" col-sm-2">
                                     <div class="input-group-sm">
-                                        <label for="interface-locale"><?= trans($package . '::messages.interface-locale') ?>:</label>
+                                        <label for="interface-locale"><?php echo trans($package . '::messages.interface-locale') ?>:</label>
                                         <br>
                                         <select name="l" id="interface-locale" class="form-control">
                                             @foreach($locales as $locale)
-                                                <option value="<?=$locale?>"<?= $currentLocale === $locale ? ' selected="selected"' : ''?>><?= $locale ?></option>
+                                                <option value="<?php echo $locale?>"<?php echo $currentLocale === $locale ? ' selected="selected"' : ''?>><?php echo $locale ?></option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class=" col-sm-2">
                                     <div class="input-group-sm">
-                                        <label for="translating-locale"><?= trans($package . '::messages.translating-locale') ?>:</label>
+                                        <label for="translating-locale"><?php echo trans($package . '::messages.translating-locale') ?>:</label>
                                         <br>
                                         <select name="t" id="translating-locale" class="form-control">
                                             @foreach($locales as $locale)
                                                 @if($locale !== $primaryLocale)
-                                                    <option value="<?=$locale?>"<?= $translatingLocale === $locale ? ' selected="selected"' : ''?>><?= $locale ?></option>
+                                                    <option value="<?php echo $locale?>"<?php echo $translatingLocale === $locale ? ' selected="selected"' : ''?>><?php echo $locale ?></option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -302,23 +304,23 @@
                                 </div>
                                 <div class=" col-sm-2">
                                     <div class="input-group-sm">
-                                        <label for="primary-locale"><?= trans($package . '::messages.primary-locale') ?>:</label>
+                                        <label for="primary-locale"><?php echo trans($package . '::messages.primary-locale') ?>:</label>
                                         <br>
                                         <select name="p" id="primary-locale" class="form-control">
                                             @foreach($locales as $locale)
-                                                <option value="<?=$locale?>"<?= $primaryLocale === $locale ? ' selected="selected"' : ''?>><?= $locale ?></option>
+                                                <option value="<?php echo $locale?>"<?php echo $primaryLocale === $locale ? ' selected="selected"' : ''?>><?php echo $locale ?></option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class=" col-sm-3">
-                                    <?php if(str_contains($userLocales, ',' . $currentLocale . ',')): ?>
+                                    <?php if(str_contains($userLocales, ',' . $currentLocale . ',')) : ?>
                                     <div class="input-group input-group-sm" style="float:right; display:inline">
-                                        <?= ifEditTrans($package . '::messages.in-place-edit') ?>
+                                        <?php echo ifEditTrans($package . '::messages.in-place-edit') ?>
                                         <label for="edit-in-place">&nbsp;</label>
                                         <br>
-                                        <a class="btn btn-sm btn-primary" role="button" id="edit-in-place" href="<?= action($controller . '@getToggleInPlaceEdit') ?>">
-                                            <?= noEditTrans($package . '::messages.in-place-edit') ?>
+                                        <a class="btn btn-sm btn-primary" role="button" id="edit-in-place" href="<?php echo action($controller . '@getToggleInPlaceEdit') ?>">
+                                            <?php echo noEditTrans($package . '::messages.in-place-edit') ?>
                                         </a>
                                     </div>
                                     <?php endif ?>
@@ -329,27 +331,27 @@
                                 <div class=" col-sm-4">
                                     <div class="row">
                                         <div class=" col-sm-12">
-                                            <?= formSubmit(trans($package . '::messages.display-locales'), ['class' => "btn btn-sm btn-primary"]) ?>&nbsp;&nbsp;
+                                            <?php echo formSubmit(trans($package . '::messages.display-locales'), ['class' => "btn btn-sm btn-primary"]) ?>&nbsp;&nbsp;
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class=" col-sm-12">
                                             <div style="min-height: 10px"></div>
-                                            <?= ifEditTrans($package . '::messages.check-all') ?>
+                                            <?php echo ifEditTrans($package . '::messages.check-all') ?>
                                             <button id="display-locale-all"
-                                                    class="btn btn-sm btn-default"><?= noEditTrans($package . '::messages.check-all')?></button>
-                                            <?= ifEditTrans($package . '::messages.check-none') ?>
+                                                    class="btn btn-sm btn-default"><?php echo noEditTrans($package . '::messages.check-all')?></button>
+                                            <?php echo ifEditTrans($package . '::messages.check-none') ?>
                                             <button id="display-locale-none"
-                                                    class="btn btn-sm btn-default"><?= noEditTrans($package . '::messages.check-none')?></button>
+                                                    class="btn btn-sm btn-default"><?php echo noEditTrans($package . '::messages.check-none')?></button>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class=" col-sm-12">
                                             <div style="min-height: 10px"></div>
-                                            <?= ifEditTrans($package . '::messages.show-published-site') ?>
-                                            <?= ifEditTrans($package . '::messages.show-unpublished-site') ?>
-                                            <a class="btn btn-xs btn-default" role="button" id="show-unpublished-site" href="<?= action($controller . '@getToggleShowUnpublished') ?>">
-                                                <?= noEditTrans($package . ($show_unpublished ? '::messages.show-published-site' : '::messages.show-unpublished-site')) ?>
+                                            <?php echo ifEditTrans($package . '::messages.show-published-site') ?>
+                                            <?php echo ifEditTrans($package . '::messages.show-unpublished-site') ?>
+                                            <a class="btn btn-xs btn-default" role="button" id="show-unpublished-site" href="<?php echo action($controller . '@getToggleShowUnpublished') ?>">
+                                                <?php echo noEditTrans($package . ($show_unpublished ? '::messages.show-published-site' : '::messages.show-unpublished-site')) ?>
                                             </a>
                                         </div>
                                     </div>
@@ -358,11 +360,11 @@
                                     <div class="input-group-sm">
                                         @foreach($locales as $locale)
                                             <label>
-                                                <input <?= $locale !== $primaryLocale && $locale !== $translatingLocale ? ' class="display-locale" ' : '' ?> name="d[]"
+                                                <input <?php echo $locale !== $primaryLocale && $locale !== $translatingLocale ? ' class="display-locale" ' : '' ?> name="d[]"
                                                         type="checkbox"
-                                                        value="<?=$locale?>"
-                                                <?= ($locale === $primaryLocale || $locale === $translatingLocale || array_search($locale, $displayLocales) !== false) ? 'checked' : '' ?>
-                                                    <?= $locale === $primaryLocale || $locale === $translatingLocale ? ' disabled' : '' ?>><?= $locale ?>
+                                                        value="<?php echo $locale?>"
+                                                <?php echo ($locale === $primaryLocale || $locale === $translatingLocale || array_search($locale, $displayLocales) !== false) ? 'checked' : '' ?>
+                                                    <?php echo $locale === $primaryLocale || $locale === $translatingLocale ? ' disabled' : '' ?>><?php echo $locale ?>
                                             </label>
                                         @endforeach
                                     </div>
@@ -376,7 +378,7 @@
                         <div class="col-sm-12">
                             <div style="min-height: 10px"></div>
                             <form class="form-inline" id="form-usage-info" method="GET"
-                                    action="<?= action($controller . '@getUsageInfo') ?>">
+                                    action="<?php echo action($controller . '@getUsageInfo') ?>">
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 <input type="hidden" name="group" value="<?php echo $group ? $group : '*'; ?>">
                                 <div class="row">
@@ -385,7 +387,7 @@
                                             <div class=" col-sm-4">
                                                 <div class="row">
                                                     <div class=" col-sm-12">
-                                                        <?= formSubmit(trans($package . '::messages.set-usage-info'), ['class' => "btn btn-sm btn-primary"]) ?>&nbsp;&nbsp;
+                                                        <?php echo formSubmit(trans($package . '::messages.set-usage-info'), ['class' => "btn btn-sm btn-primary"]) ?>&nbsp;&nbsp;
                                                         <br>
                                                     </div>
                                                 </div>
@@ -442,20 +444,20 @@
                 </div>
             </div>
         </div>
-        <?= ifEditTrans($package . '::messages.enter-translation') ?>
-        <?= ifEditTrans($package . '::messages.mismatched-quotes') ?>
-        <?php if($group): ?>
+        <?php echo ifEditTrans($package . '::messages.enter-translation') ?>
+        <?php echo ifEditTrans($package . '::messages.mismatched-quotes') ?>
+        <?php if($group) : ?>
         <div class="row">
             <div class="col-sm-12 ">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     @if($adminEnabled && $userLocalesEnabled)
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingUserAdmin">
-                                <?= ifEditTrans($package . '::messages.user-admin') ?>
+                                <?php echo ifEditTrans($package . '::messages.user-admin') ?>
                                 <h4 class="panel-title">
                                     <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseUserAdmin"
                                             aria-expanded="false" aria-controls="collapseUserAdmin">
-                                        <?= noEditTrans($package . '::messages.user-admin') ?>
+                                        <?php echo noEditTrans($package . '::messages.user-admin') ?>
                                     </a>
                                 </h4>
                             </div>
@@ -468,15 +470,15 @@
                                 </div>
                             </div>
                         </div>
-                        <?php endif; ?>
-                        <?php if($adminEnabled): ?>
+        <?php endif; ?>
+                        <?php if($adminEnabled) : ?>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
-                                <?= ifEditTrans($package . '::messages.suffixed-keyops') ?>
+                                <?php echo ifEditTrans($package . '::messages.suffixed-keyops') ?>
                                 <h4 class="panel-title">
                                     <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                             aria-expanded="false" aria-controls="collapseOne">
-                                        <?= noEditTrans($package . '::messages.suffixed-keyops') ?>
+                                        <?php echo noEditTrans($package . '::messages.suffixed-keyops') ?>
                                     </a>
                                 </h4>
                             </div>
@@ -485,19 +487,23 @@
                                 <div class="panel-body">
                                     <!-- Add Keys Form -->
                                     <div class="col-sm-12">
-                                        <?=  Form::open(['id' => 'form-addkeys', 'method' => 'POST', 'action' => [$controller . '@postAddSuffixedKeys', $group]]) ?>
+                                        <?php echo  Form::open(['id' => 'form-addkeys', 'method' => 'POST', 'action' => [$controller . '@postAddSuffixedKeys', $group]]) ?>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="keys">@lang($package . '::messages.keys'):</label><?= ifEditTrans($package . '::messages.addkeys-placeholder') ?>
-                                                <?=  Form::textarea('keys', Request::old('keys'), [
+                                                <label for="keys">@lang($package . '::messages.keys'):</label><?php echo ifEditTrans($package . '::messages.addkeys-placeholder') ?>
+                                                <?php echo  Form::textarea(
+                                                    'keys', Request::old('keys'), [
                                                     'class' => "form-control", 'rows' => "4", 'style' => "resize: vertical", 'placeholder' => noEditTrans($package . '::messages.addkeys-placeholder')
-                                                ]) ?>
+                                                    ]
+                                                ) ?>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label for="suffixes">@lang($package . '::messages.suffixes'):</label><?= ifEditTrans($package . '::messages.addsuffixes-placeholder') ?>
-                                                <?=  Form::textarea('suffixes', Request::old('suffixes'), [
+                                                <label for="suffixes">@lang($package . '::messages.suffixes'):</label><?php echo ifEditTrans($package . '::messages.addsuffixes-placeholder') ?>
+                                                <?php echo  Form::textarea(
+                                                    'suffixes', Request::old('suffixes'), [
                                                     'class' => "form-control", 'rows' => "4", 'style' => "resize: vertical", 'placeholder' => noEditTrans($package . '::messages.addsuffixes-placeholder')
-                                                ]) ?>
+                                                    ]
+                                                ) ?>
                                             </div>
                                         </div>
                                         <div style="min-height: 10px"></div>
@@ -518,53 +524,53 @@
                                             function postDeleteSuffixedKeys(event) {
                                                 event.preventDefault();
                                                 var elem = $("#form-addkeys").first();
-                                                elem[0].action = "<?= action($controller . '@postDeleteSuffixedKeys', $group)?>";
+                                                elem[0].action = "<?php echo action($controller . '@postDeleteSuffixedKeys', $group)?>";
                                                 elem[0].submit();
                                             }
                                         </script>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <?= formSubmit(trans($package . '::messages.addkeys'), ['class' => "btn btn-sm btn-primary"]) ?>
-                                                <?= ifEditTrans($package . '::messages.clearkeys') ?>
+                                                <?php echo formSubmit(trans($package . '::messages.addkeys'), ['class' => "btn btn-sm btn-primary"]) ?>
+                                                <?php echo ifEditTrans($package . '::messages.clearkeys') ?>
                                                 <button class="btn btn-sm btn-primary"
-                                                        onclick="clearKeys(event)"><?= noEditTrans($package . '::messages.clearkeys') ?>
+                                                        onclick="clearKeys(event)"><?php echo noEditTrans($package . '::messages.clearkeys') ?>
                                                 </button>
                                                 <div class="input-group" style="float:right; display:inline">
-                                                    <?= ifEditTrans($package . '::messages.deletekeys') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.deletekeys') ?>
                                                     <button class="btn btn-sm btn-danger"
                                                             onclick="postDeleteSuffixedKeys(event)">
-                                                        <?= noEditTrans($package . '::messages.deletekeys') ?>
+                                                        <?php echo noEditTrans($package . '::messages.deletekeys') ?>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <?= ifEditTrans($package . '::messages.addsuffixes') ?>
+                                                <?php echo ifEditTrans($package . '::messages.addsuffixes') ?>
                                                 <button class="btn btn-sm btn-primary"
-                                                        onclick="addStandardSuffixes(event)"><?= noEditTrans($package . '::messages.addsuffixes') ?></button>
-                                                <?= ifEditTrans($package . '::messages.clearsuffixes') ?>
+                                                        onclick="addStandardSuffixes(event)"><?php echo noEditTrans($package . '::messages.addsuffixes') ?></button>
+                                                <?php echo ifEditTrans($package . '::messages.clearsuffixes') ?>
                                                 <button class="btn btn-sm btn-primary"
-                                                        onclick="clearSuffixes(event)"><?= noEditTrans($package . '::messages.clearsuffixes') ?></button>
+                                                        onclick="clearSuffixes(event)"><?php echo noEditTrans($package . '::messages.clearsuffixes') ?></button>
                                             </div>
                                             <div class="col-sm-2">
                                                 <span style="float:right; display:inline">
-                                                    <?= ifEditTrans($package . '::messages.search'); ?>
+                                                    <?php echo ifEditTrans($package . '::messages.search'); ?>
                                                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                                            data-target="#searchModal"><?= noEditTrans($package . '::messages.search') ?></button>
+                                                            data-target="#searchModal"><?php echo noEditTrans($package . '::messages.search') ?></button>
                                                 </span>
                                             </div>
                                         </div>
-                                        <?=  Form::close() ?>
+                                        <?php echo  Form::close() ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingTwo">
-                                <?= ifEditTrans($package . '::messages.wildcard-keyops') ?>
+                                <?php echo ifEditTrans($package . '::messages.wildcard-keyops') ?>
                                 <h4 class="panel-title">
                                     <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
                                             aria-expanded="false" aria-controls="collapseTwo">
-                                        <?= noEditTrans($package . '::messages.wildcard-keyops') ?>
+                                        <?php echo noEditTrans($package . '::messages.wildcard-keyops') ?>
                                     </a>
                                 </h4>
                             </div>
@@ -573,21 +579,27 @@
                                     <div class="col-sm-12">
                                         <!-- Key Ops Form -->
                                         <div id="wildcard-keyops-results" class="results"></div>
-                                        <?=  Form::open([
+                                        <?php echo  Form::open(
+                                            [
                                             'id' => 'form-keyops', 'data-remote' => "true", 'method' => 'POST', 'action' => [$controller . '@postPreviewKeys', $group]
-                                        ]) ?>
+                                            ]
+                                        ) ?>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="srckeys">@lang($package . '::messages.srckeys'):</label><?= ifEditTrans($package . '::messages.srckeys-placeholder') ?>
-                                                <?=  Form::textarea('srckeys', Request::old('srckeys'), [
+                                                <label for="srckeys">@lang($package . '::messages.srckeys'):</label><?php echo ifEditTrans($package . '::messages.srckeys-placeholder') ?>
+                                                <?php echo  Form::textarea(
+                                                    'srckeys', Request::old('srckeys'), [
                                                     'id' => 'srckeys', 'class' => "form-control", 'rows' => "4", 'style' => "resize: vertical", 'placeholder' => noEditTrans($package . '::messages.srckeys-placeholder')
-                                                ]) ?>
+                                                    ]
+                                                ) ?>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label for="dstkeys">@lang($package . '::messages.dstkeys'):</label><?= ifEditTrans($package . '::messages.dstkeys-placeholder') ?>
-                                                <?=  Form::textarea('dstkeys', Request::old('dstkeys'), [
+                                                <label for="dstkeys">@lang($package . '::messages.dstkeys'):</label><?php echo ifEditTrans($package . '::messages.dstkeys-placeholder') ?>
+                                                <?php echo  Form::textarea(
+                                                    'dstkeys', Request::old('dstkeys'), [
                                                     'id' => 'dstkeys', 'class' => "form-control", 'rows' => "4", 'style' => "resize: vertical", 'placeholder' => noEditTrans($package . '::messages.dstkeys-placeholder')
-                                                ]) ?>
+                                                    ]
+                                                ) ?>
                                             </div>
                                         </div>
                                         <div style="min-height: 10px"></div>
@@ -604,60 +616,62 @@
                                             function postPreviewKeys(event) {
                                                 //event.preventDefault();
                                                 var elem = $("#form-keyops").first();
-                                                elem[0].action = "<?= action($controller . '@postPreviewKeys', $group)?>";
+                                                elem[0].action = "<?php echo action($controller . '@postPreviewKeys', $group)?>";
                                                 //elem[0].submit();
                                             }
                                             function postMoveKeys(event) {
                                                 //event.preventDefault();
                                                 var elem = $("#form-keyops").first();
-                                                elem[0].action = "<?= action($controller . '@postMoveKeys', $group)?>";
+                                                elem[0].action = "<?php echo action($controller . '@postMoveKeys', $group)?>";
                                                 //elem[0].submit();
                                             }
                                             function postCopyKeys(event) {
                                                 //event.preventDefault();
                                                 var elem = $("#form-keyops").first();
-                                                elem[0].action = "<?= action($controller . '@postCopyKeys', $group)?>";
+                                                elem[0].action = "<?php echo action($controller . '@postCopyKeys', $group)?>";
                                                 //elem[0].submit();
                                             }
                                             function postDeleteKeys(event) {
                                                 //event.preventDefault();
                                                 var elem = $("#form-keyops").first();
-                                                elem[0].action = "<?= action($controller . '@postDeleteKeys', $group)?>";
+                                                elem[0].action = "<?php echo action($controller . '@postDeleteKeys', $group)?>";
                                                 //elem[0].submit();
                                             }
                                         </script>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <?= ifEditTrans($package . '::messages.clearsrckeys') ?>
+                                                <?php echo ifEditTrans($package . '::messages.clearsrckeys') ?>
                                                 <button class="btn btn-sm btn-primary"
-                                                        onclick="clearSrcKeys(event)"><?= noEditTrans($package . '::messages.clearsrckeys') ?></button>
+                                                        onclick="clearSrcKeys(event)"><?php echo noEditTrans($package . '::messages.clearsrckeys') ?></button>
                                                 <div class="input-group" style="float:right; display:inline">
-                                                    <?= formSubmit(trans($package . '::messages.preview'), [
+                                                    <?php echo formSubmit(
+                                                        trans($package . '::messages.preview'), [
                                                         'class' => "btn btn-sm btn-primary", 'onclick' => 'postPreviewKeys(event)'
-                                                    ]) ?>
-                                                    <?= ifEditTrans($package . '::messages.copykeys'); ?>
+                                                        ]
+                                                    ) ?>
+                                                    <?php echo ifEditTrans($package . '::messages.copykeys'); ?>
                                                     <button class="btn btn-sm btn-primary" onclick="postCopyKeys(event)">
-                                                        <?= noEditTrans($package . '::messages.copykeys') ?>
+                                                        <?php echo noEditTrans($package . '::messages.copykeys') ?>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <?= ifEditTrans($package . '::messages.cleardstkeys') ?>
+                                                <?php echo ifEditTrans($package . '::messages.cleardstkeys') ?>
                                                 <button class="btn btn-sm btn-primary"
-                                                        onclick="clearDstKeys(event)"><?= noEditTrans($package . '::messages.cleardstkeys') ?></button>
+                                                        onclick="clearDstKeys(event)"><?php echo noEditTrans($package . '::messages.cleardstkeys') ?></button>
                                                 <div class="input-group" style="float:right; display:inline">
-                                                    <?= ifEditTrans($package . '::messages.movekeys') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.movekeys') ?>
                                                     <button class="btn btn-sm btn-warning" onclick="postMoveKeys(event)">
-                                                        <?= noEditTrans($package . '::messages.movekeys') ?>
+                                                        <?php echo noEditTrans($package . '::messages.movekeys') ?>
                                                     </button>
-                                                    <?= ifEditTrans($package . '::messages.deletekeys') ?>
+                                                    <?php echo ifEditTrans($package . '::messages.deletekeys') ?>
                                                     <button class="btn btn-sm btn-danger" onclick="postDeleteKeys(event)">
-                                                        <?= noEditTrans($package . '::messages.deletekeys') ?>
+                                                        <?php echo noEditTrans($package . '::messages.deletekeys') ?>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <?=  Form::close() ?>
+                                        <?php echo  Form::close() ?>
                                     </div>
                                 </div>
                             </div>
@@ -666,11 +680,11 @@
                         @if($yandex_key)
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingThree">
-                                    <?= ifEditTrans($package . '::messages.translation-ops') ?>
+                                    <?php echo ifEditTrans($package . '::messages.translation-ops') ?>
                                     <h4 class="panel-title">
                                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
                                                 href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            <?= noEditTrans($package . '::messages.translation-ops') ?>
+                                            <?php echo noEditTrans($package . '::messages.translation-ops') ?>
                                         </a>
                                     </h4>
                                 </div>
@@ -680,20 +694,20 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                         <textarea id="primary-text" class="form-control" rows="3" name="keys"
-                                                style="resize: vertical;" placeholder="<?= $primaryLocale ?>"></textarea>
+                                                style="resize: vertical;" placeholder="<?php echo $primaryLocale ?>"></textarea>
                                                 <div style="min-height: 10px"></div>
                                                 <span>@lang($package.'::messages.powered-by-yandex')</span> <span style="float:right; display:inline">
                                             <button id="translate-primary-current" type="button" class="btn btn-sm btn-primary">
-                                                <?= $primaryLocale ?>&nbsp;<i class="glyphicon glyphicon-share-alt"></i>&nbsp;<?= $translatingLocale ?>
+                                                <?php echo $primaryLocale ?>&nbsp;<i class="glyphicon glyphicon-share-alt"></i>&nbsp;<?php echo $translatingLocale ?>
                                             </button>
                                         </span>
                                             </div>
                                             <div class="col-sm-6">
                                         <textarea id="current-text" class="form-control" rows="3" name="keys"
-                                                style="resize: vertical;" placeholder="<?= $translatingLocale ?>"></textarea>
+                                                style="resize: vertical;" placeholder="<?php echo $translatingLocale ?>"></textarea>
                                                 <div style="min-height: 10px"></div>
                                                 <button id="translate-current-primary" type="button" class="btn btn-sm btn-primary">
-                                                    <?= $translatingLocale ?>&nbsp;<i class="glyphicon glyphicon-share-alt"></i>&nbsp;<?= $primaryLocale ?>
+                                                    <?php echo $translatingLocale ?>&nbsp;<i class="glyphicon glyphicon-share-alt"></i>&nbsp;<?php echo $primaryLocale ?>
                                                 </button>
                                                 <span style="float:right; display:inline">@lang($package.'::messages.powered-by-yandex')</span>
                                             </div>
@@ -709,7 +723,7 @@
             <div class="col-sm-12 ">
                 <label for="show-matching-text" id="show-matching-text-label" class="regex-error">&nbsp;</label>
                 <div class="form-inline">
-                    <?= ifEditTrans($package . '::messages.show-matching-text') ?>
+                    <?php echo ifEditTrans($package . '::messages.show-matching-text') ?>
                     <div class="input-group input-group-sm">
                         <input class="form-control" style="width: 200px;" id="show-matching-text" type="text" placeholder="{{noEditTrans($package . '::messages.show-matching-text')}}">
                         <span class="input-group-btn">
@@ -789,12 +803,12 @@
                         <h4 class="modal-title" id="searchModalLabel">@lang($package . '::messages.search-translations')</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="search-form" method="GET" action="<?= action($controller . '@getSearch') ?>" data-remote="true">
+                        <form id="search-form" method="GET" action="<?php echo action($controller . '@getSearch') ?>" data-remote="true">
                             <div class="form-group">
                                 <div class="input-group">
                                     <input id="search-form-text" type="search" name="q" class="form-control">
                                     <span class="input-group-btn">
-                                        <?= formSubmit(trans($package . '::messages.search'), ['class' => "btn btn-default"]) ?>
+                                        <?php echo formSubmit(trans($package . '::messages.search'), ['class' => "btn btn-default"]) ?>
                                     </span>
                                 </div>
                             </div>
@@ -802,8 +816,8 @@
                         <div class="results"></div>
                     </div>
                     <div class="modal-footer">
-                        <?= ifEditTrans($package . '::messages.close') ?>
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?= noEditTrans($package . '::messages.close') ?></button>
+                        <?php echo ifEditTrans($package . '::messages.close') ?>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?php echo noEditTrans($package . '::messages.close') ?></button>
                     </div>
                 </div>
             </div>
@@ -823,8 +837,8 @@
                         <div class="results"></div>
                     </div>
                     <div class="modal-footer">
-                        <?= ifEditTrans($package . '::messages.close') ?>
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?= noEditTrans($package . '::messages.close') ?></button>
+                        <?php echo ifEditTrans($package . '::messages.close') ?>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?php echo noEditTrans($package . '::messages.close') ?></button>
                     </div>
                 </div>
             </div>
@@ -845,8 +859,8 @@
                         <div class="results"></div>
                     </div>
                     <div class="modal-footer">
-                        <?= ifEditTrans($package . '::messages.close') ?>
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?= noEditTrans($package . '::messages.close') ?></button>
+                        <?php echo ifEditTrans($package . '::messages.close') ?>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?php echo noEditTrans($package . '::messages.close') ?></button>
                     </div>
                 </div>
             </div>
@@ -856,36 +870,36 @@
 
 @section('body-bottom')
     <script>
-        var URL_YANDEX_TRANSLATOR_KEY = '<?= action($controller . '@postYandexKey') ?>';
+        var URL_YANDEX_TRANSLATOR_KEY = '<?php echo action($controller . '@postYandexKey') ?>';
         var PRIMARY_LOCALE = '{{$primaryLocale}}';
         var CURRENT_LOCALE = '{{$currentLocale}}';
         var TRANSLATING_LOCALE = '{{$translatingLocale}}';
-        var URL_TRANSLATOR_GROUP = '<?= action($controller . '@getView') ?>/';
-        var URL_TRANSLATOR_ALL = '<?= action($controller . '@getIndex') ?>';
-        var URL_TRANSLATOR_FILTERS = '<?= action($controller . '@getTransFilters') ?>';
-        var CURRENT_GROUP = '<?= $group ?>';
-        var MARKDOWN_KEY_SUFFIX = '<?= $markdownKeySuffix ?>';
+        var URL_TRANSLATOR_GROUP = '<?php echo action($controller . '@getView') ?>/';
+        var URL_TRANSLATOR_ALL = '<?php echo action($controller . '@getIndex') ?>';
+        var URL_TRANSLATOR_FILTERS = '<?php echo action($controller . '@getTransFilters') ?>';
+        var CURRENT_GROUP = '<?php echo $group ?>';
+        var MARKDOWN_KEY_SUFFIX = '<?php echo $markdownKeySuffix ?>';
         
         // provide translations for JavaScript
-        var MISMATCHED_QUOTES_MESSAGE = "<?= noEditTrans(($package . '::messages.mismatched-quotes'))?>";
-        var TITLE_SAVE_CHANGES = "<?= noEditTrans(($package . '::messages.title-save-changes'))?>";
-        var TITLE_CANCEL_CHANGES = "<?= noEditTrans(($package . '::messages.title-cancel-changes'))?>";
-        var TITLE_TRANSLATE = "<?= noEditTrans(($package . '::messages.title-translate'))?>";
-        var TITLE_CONVERT_KEY = "<?= noEditTrans(($package . '::messages.title-convert-key'))?>";
-        var TITLE_GENERATE_PLURALS = "<?= noEditTrans(($package . '::messages.title-generate-plurals'))?>";
-        var TITLE_CLEAN_HTML_MARKDOWN = "<?= noEditTrans(($package . '::messages.title-clean-html-markdown'))?>";
-        var TITLE_CAPITALIZE = "<?= noEditTrans(($package . '::messages.title-capitalize'))?>";
-        var TITLE_LOWERCASE = "<?= noEditTrans(($package . '::messages.title-lowercase'))?>";
-        var TITLE_CAPITALIZE_FIRST_WORD = "<?= noEditTrans(($package . '::messages.title-capitalize-first-word'))?>";
-        var TITLE_SIMULATED_COPY = "<?= noEditTrans(($package . '::messages.title-simulated-copy'))?>";
-        var TITLE_SIMULATED_PASTE = "<?= noEditTrans(($package . '::messages.title-simulated-paste'))?>";
-        var TITLE_RESET_EDITOR = "<?= noEditTrans(($package . '::messages.title-reset-editor'))?>";
-        var TITLE_LOAD_LAST = "<?= noEditTrans(($package . '::messages.title-load-last'))?>";
+        var MISMATCHED_QUOTES_MESSAGE = "<?php echo noEditTrans(($package . '::messages.mismatched-quotes'))?>";
+        var TITLE_SAVE_CHANGES = "<?php echo noEditTrans(($package . '::messages.title-save-changes'))?>";
+        var TITLE_CANCEL_CHANGES = "<?php echo noEditTrans(($package . '::messages.title-cancel-changes'))?>";
+        var TITLE_TRANSLATE = "<?php echo noEditTrans(($package . '::messages.title-translate'))?>";
+        var TITLE_CONVERT_KEY = "<?php echo noEditTrans(($package . '::messages.title-convert-key'))?>";
+        var TITLE_GENERATE_PLURALS = "<?php echo noEditTrans(($package . '::messages.title-generate-plurals'))?>";
+        var TITLE_CLEAN_HTML_MARKDOWN = "<?php echo noEditTrans(($package . '::messages.title-clean-html-markdown'))?>";
+        var TITLE_CAPITALIZE = "<?php echo noEditTrans(($package . '::messages.title-capitalize'))?>";
+        var TITLE_LOWERCASE = "<?php echo noEditTrans(($package . '::messages.title-lowercase'))?>";
+        var TITLE_CAPITALIZE_FIRST_WORD = "<?php echo noEditTrans(($package . '::messages.title-capitalize-first-word'))?>";
+        var TITLE_SIMULATED_COPY = "<?php echo noEditTrans(($package . '::messages.title-simulated-copy'))?>";
+        var TITLE_SIMULATED_PASTE = "<?php echo noEditTrans(($package . '::messages.title-simulated-paste'))?>";
+        var TITLE_RESET_EDITOR = "<?php echo noEditTrans(($package . '::messages.title-reset-editor'))?>";
+        var TITLE_LOAD_LAST = "<?php echo noEditTrans(($package . '::messages.title-load-last'))?>";
     </script>
 
     <!-- Moved out to allow auto-format in PhpStorm w/o screwing up HTML format -->
-    <script src="<?=  $public_prefix . $package ?>/js/xregexp-all.js"></script>
-    <script src="<?=  $public_prefix . $package ?>/js/translations_page.js"></script>
+    <script src="<?php echo  $public_prefix . $package ?>/js/xregexp-all.js"></script>
+    <script src="<?php echo  $public_prefix . $package ?>/js/translations_page.js"></script>
 
     <?php
     $userLocaleList = [];
@@ -893,7 +907,8 @@
         if ($user->locales) {
             foreach (explode(",", $user->locales) as $userLocale) {
                 $userLocale = trim($userLocale);
-                if ($userLocale) $userLocaleList[] = $userLocale;
+                if ($userLocale) { $userLocaleList[] = $userLocale;
+                }
             }
         }
     }
@@ -908,14 +923,16 @@
 
     <script>
 var TRANS_FILTERS = ({
-filter: "<?= isset($transFilters['filter']) ? $transFilters['filter'] : "" ?>",
-regex: "<?= isset($transFilters['regex']) ? $transFilters['regex'] : ""  ?>"
+filter: "<?php echo isset($transFilters['filter']) ? $transFilters['filter'] : "" ?>",
+regex: "<?php echo isset($transFilters['regex']) ? $transFilters['regex'] : ""  ?>"
 });
 
 <?php $addComma = false; ?>
 var USER_LOCALES = [
 <?php foreach ($userLocaleList as $locale): ?>
-  <?php if ($addComma) echo ","; else $addComma = true; ?> { value: '<?= $locale ?>', text: '<?= $locale ?>' }
+    <?php if ($addComma) { echo ","; 
+    } else { $addComma = true;
+    } ?> { value: '<?php echo $locale ?>', text: '<?php echo $locale ?>' }
 <?php endforeach; ?>
 ];
     </script>

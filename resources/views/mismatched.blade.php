@@ -9,8 +9,8 @@
                     <thead>
                         <tr>
                             <th class="key" width="20%">@lang($package . '::messages.key')</th>
-                            <th width="20%" colspan="2"><?=$translatingLocale?></th>
-                            <th width="20%"><?=$primaryLocale?></th>
+                            <th width="20%" colspan="2"><?php echo $translatingLocale?></th>
+                            <th width="20%"><?php echo $primaryLocale?></th>
                             <th class="group" width="20%">@lang($package . '::messages.group')</th>
                         </tr>
                     </thead>
@@ -23,31 +23,32 @@
                         $isLocaleEnabled = str_contains($userLocales, ',' . $locale . ',');
                         foreach($mismatches as $mismatch)
                         {
-                        if ($mismatch === null) break;
-
-                        $borderTop = ' class="no-border-top"';
-                        if ($key != $mismatch->key) {
-                            if ($key !== '') {
-                                $borderTop = ' class="border-top"';
+                            if ($mismatch === null) { break;
                             }
-                            $key = $mismatch->key;
-                            $keyText = $mismatch->key;
-                        }
-                        $link = action($controller . '@getView') . '/' . $mismatch->group . '#' . $mismatch->key;
-                        $mismatch->value = $mismatch->ru_value;
-                        $mismatch->locale = $locale;
-                        $mismatch->status = $locale;
-                        ?>
-                        <tr<?= $borderTop?>>
-                            <td width="20%" class="missing"><?= $keyText?></td>
+
+                            $borderTop = ' class="no-border-top"';
+                            if ($key != $mismatch->key) {
+                                if ($key !== '') {
+                                    $borderTop = ' class="border-top"';
+                                }
+                                $key = $mismatch->key;
+                                $keyText = $mismatch->key;
+                            }
+                            $link = action($controller . '@getView') . '/' . $mismatch->group . '#' . $mismatch->key;
+                            $mismatch->value = $mismatch->ru_value;
+                            $mismatch->locale = $locale;
+                            $mismatch->status = $locale;
+                            ?>
+                        <tr<?php echo $borderTop?>>
+                            <td width="20%" class="missing"><?php echo $keyText?></td>
                             <td>
-                                <?= $isLocaleEnabled ? $translator->inPlaceEditLink($mismatch, false) : $mismatch->value ?>
+                                <?php echo $isLocaleEnabled ? $translator->inPlaceEditLink($mismatch, false) : $mismatch->value ?>
                             </td>
-                            <td width="20%" class="missing"><?= $mismatch->ru?></td>
-                            <td width="20%" class="missing"><?= $mismatch->en?></td>
-                            <td width="20%" class="group missing"><a href="<?= $link?>"><?= $mismatch->group?></a></td>
+                            <td width="20%" class="missing"><?php echo $mismatch->ru?></td>
+                            <td width="20%" class="missing"><?php echo $mismatch->en?></td>
+                            <td width="20%" class="group missing"><a href="<?php echo $link?>"><?php echo $mismatch->group?></a></td>
                         </tr>
-                        <?php
+                            <?php
                         }
                         ?>
                     </tbody>

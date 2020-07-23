@@ -1,7 +1,7 @@
 <table id="translations" class="table table-condensed table-striped table-translations">
     <thead>
     <tr>
-        <?php if($adminEnabled): ?>
+        <?php if($adminEnabled) : ?>
         <th width="1%">
             <a href="#" class="auto-delete-key">
                 <span class="glyphicon glyphicon-trash"></span>
@@ -28,51 +28,53 @@
         $translationRows = count(array_keys($translations));
         ?>
         <th width="15%">@lang($package . '::messages.key')
-            <span class="key-filter" id="key-filter"><?=$translationRows?></span>
+            <span class="key-filter" id="key-filter"><?php echo $translationRows?></span>
         </th>
         <?php foreach($locales as $locale): ?>
-        <?php $isLocaleEnabled = str_contains($userLocalesString, ',' . $locale . ','); ?>
-        <?php if (!array_key_exists($locale, $useDisplayLocales)) continue; ?>
-        <?php $jsonAdjustedLocale = $locale === 'json' ? app('translator')->get($package . '::messages.json-key') : $locale;if ($col < 3): ?>
-        <?php if ($col === 0): ?>
-        <th width="<?=$mainWidth?>%"><?= $locale ?>&nbsp;
-            <?= ifEditTrans($package . '::messages.auto-fill-disabled') ?>
-            <?= ifEditTrans($package . '::messages.auto-fill') ?>
-            <a class="btn btn-xs btn-primary" id="auto-fill" role="button" <?= $isLocaleEnabled ? '' : 'disabled' ?>
-            data-disable-with="<?=noEditTrans($package . '::messages.auto-fill-disabled')?>"
-                    href="#"><?= noEditTrans($package . '::messages.auto-fill') ?></a>
+            <?php $isLocaleEnabled = str_contains($userLocalesString, ',' . $locale . ','); ?>
+            <?php if (!array_key_exists($locale, $useDisplayLocales)) { continue;
+            } ?>
+            <?php $jsonAdjustedLocale = $locale === 'json' ? app('translator')->get($package . '::messages.json-key') : $locale;if ($col < 3) : ?>
+                <?php if ($col === 0) : ?>
+        <th width="<?php echo $mainWidth?>%"><?php echo $locale ?>&nbsp;
+                    <?php echo ifEditTrans($package . '::messages.auto-fill-disabled') ?>
+                    <?php echo ifEditTrans($package . '::messages.auto-fill') ?>
+            <a class="btn btn-xs btn-primary" id="auto-fill" role="button" <?php echo $isLocaleEnabled ? '' : 'disabled' ?>
+            data-disable-with="<?php echo noEditTrans($package . '::messages.auto-fill-disabled')?>"
+                    href="#"><?php echo noEditTrans($package . '::messages.auto-fill') ?></a>
         </th>
-        <?php elseif (isset($yandex_key) && $yandex_key): ?>
-        <th width="<?=$mainWidth?>%"><?= $jsonAdjustedLocale; ?>&nbsp;
+        <?php elseif (isset($yandex_key) && $yandex_key) : ?>
+        <th width="<?php echo $mainWidth?>%"><?php echo $jsonAdjustedLocale; ?>&nbsp;
             <?php if ($locale !== 'json') : ?>
-            <?= ifEditTrans($package . '::messages.auto-translate-disabled') ?>
-            <?= ifEditTrans($package . '::messages.auto-translate') ?>
-            <a class="btn btn-xs btn-primary auto-translate" role="button" data-trans="<?=$col?>" data-locale="<?=$locale?>" <?= $isLocaleEnabled ? '' : 'disabled' ?>
-            data-disable-with="<?=noEditTrans($package . '::messages.auto-translate-disabled')?>"
-                    href="#"><?= noEditTrans($package . '::messages.auto-translate') ?></a>
-            <?= ifEditTrans($package . '::messages.auto-prop-case-disabled') ?>
-            <a class="btn btn-xs btn-primary auto-prop-case" role="button" data-trans="<?=$col?>" data-locale="<?=$locale?>" <?= $isLocaleEnabled ? '' : 'disabled' ?>
-            data-disable-with="<?=noEditTrans($package . '::messages.auto-prop-case-disabled')?>"
+                <?php echo ifEditTrans($package . '::messages.auto-translate-disabled') ?>
+                <?php echo ifEditTrans($package . '::messages.auto-translate') ?>
+            <a class="btn btn-xs btn-primary auto-translate" role="button" data-trans="<?php echo $col?>" data-locale="<?php echo $locale?>" <?php echo $isLocaleEnabled ? '' : 'disabled' ?>
+            data-disable-with="<?php echo noEditTrans($package . '::messages.auto-translate-disabled')?>"
+                    href="#"><?php echo noEditTrans($package . '::messages.auto-translate') ?></a>
+                <?php echo ifEditTrans($package . '::messages.auto-prop-case-disabled') ?>
+            <a class="btn btn-xs btn-primary auto-prop-case" role="button" data-trans="<?php echo $col?>" data-locale="<?php echo $locale?>" <?php echo $isLocaleEnabled ? '' : 'disabled' ?>
+            data-disable-with="<?php echo noEditTrans($package . '::messages.auto-prop-case-disabled')?>"
                     href="#">Ab Ab <i class="glyphicon glyphicon-share-alt"></i> Ab ab
             </a>
             <?php endif ?>
         </th>
         <?php else: ?>
-        <th width="<?=$mainWidth?>%"><?= $jsonAdjustedLocale; ?></th><?php endif;?>
+        <th width="<?php echo $mainWidth?>%"><?php echo $jsonAdjustedLocale; ?></th><?php 
+        endif;?>
         <?php else: ?>
-        <th><?= $jsonAdjustedLocale; ?>
+        <th><?php echo $jsonAdjustedLocale; ?>
                 <?php if ($locale !== 'json') : ?>
-            <?= ifEditTrans($package . '::messages.auto-translate-disabled') ?>
-            <?= ifEditTrans($package . '::messages.auto-translate') ?>
-            <a class="btn btn-xs btn-primary auto-translate" role="button" data-trans="<?=$col?>" data-locale="<?=$locale?>"
-                    data-disable-with="<?=noEditTrans($package . '::messages.auto-translate-disabled')?>"
-                    href="#"><?= noEditTrans($package . '::messages.auto-translate') ?></a>
-            <?= ifEditTrans($package . '::messages.auto-prop-case-disabled') ?>
-            <a class="btn btn-xs btn-primary auto-prop-case" role="button" data-trans="<?=$col?>" data-locale="<?=$locale?>"
-                    data-disable-with="<?=noEditTrans($package . '::messages.auto-prop-case-disabled')?>"
+                    <?php echo ifEditTrans($package . '::messages.auto-translate-disabled') ?>
+                    <?php echo ifEditTrans($package . '::messages.auto-translate') ?>
+            <a class="btn btn-xs btn-primary auto-translate" role="button" data-trans="<?php echo $col?>" data-locale="<?php echo $locale?>"
+                    data-disable-with="<?php echo noEditTrans($package . '::messages.auto-translate-disabled')?>"
+                    href="#"><?php echo noEditTrans($package . '::messages.auto-translate') ?></a>
+                    <?php echo ifEditTrans($package . '::messages.auto-prop-case-disabled') ?>
+            <a class="btn btn-xs btn-primary auto-prop-case" role="button" data-trans="<?php echo $col?>" data-locale="<?php echo $locale?>"
+                    data-disable-with="<?php echo noEditTrans($package . '::messages.auto-prop-case-disabled')?>"
                     href="#">Ab Ab <i class="glyphicon glyphicon-share-alt"></i> Ab ab
             </a>
-            <?php endif ?>
+                <?php endif ?>
         </th>
         <?php endif;
         $col++; ?>
@@ -84,48 +86,53 @@
     $translator = App::make('translator');
     foreach($translations as $key => $translation)
     {
-    $is_deleted = false;
-    $has_empty = false;
-    $has_nonempty = false;
-    $has_changes = false;
-    $has_changed = [];
-    $has_changes_cached = [];
-    $has_used = false;
-    foreach ($locales as $locale) {
-        if (!array_key_exists($locale, $useDisplayLocales)) continue;
+        $is_deleted = false;
+        $has_empty = false;
+        $has_nonempty = false;
+        $has_changes = false;
+        $has_changed = [];
+        $has_changes_cached = [];
+        $has_used = false;
+        foreach ($locales as $locale) {
+            if (!array_key_exists($locale, $useDisplayLocales)) { continue;
+            }
 
-        $has_changed[$locale] = false;
-        $has_changes_cached[$locale] = false;
+            $has_changed[$locale] = false;
+            $has_changes_cached[$locale] = false;
 
-        if (isset($translation[$locale])) {
-            $trans = $translation[$locale];
-            if ($trans->is_deleted) $is_deleted = true;
-            if ($trans->was_used) $has_used = true;
-            if ($trans->value != '') {
-                $has_nonempty = true;
-                if ($trans->status != 0 || $trans->value != $trans->saved_value) {
-                    $has_changes = true;
+            if (isset($translation[$locale])) {
+                $trans = $translation[$locale];
+                if ($trans->is_deleted) { $is_deleted = true;
                 }
-            } else $has_empty = true;
+                if ($trans->was_used) { $has_used = true;
+                }
+                if ($trans->value != '') {
+                    $has_nonempty = true;
+                    if ($trans->status != 0 || $trans->value != $trans->saved_value) {
+                        $has_changes = true;
+                    }
+                } else { $has_empty = true;
+                }
 
-            if ($trans->status !== 0) {
-                if ($trans->status == 1 || $trans->value != $trans->saved_value) $has_changed[$locale] = true;
-                else $has_changes_cached[$locale] = $trans->value != '' && $trans->status === 2;
+                if ($trans->status !== 0) {
+                    if ($trans->status == 1 || $trans->value != $trans->saved_value) { $has_changed[$locale] = true;
+                    } else { $has_changes_cached[$locale] = $trans->value != '' && $trans->status === 2;
+                    }
+                }
             }
         }
-    }
-    ?>
-    <tr id="<?= str_replace('.', '-', $key) ?>" class="<?= $is_deleted ? ' deleted-translation' : '' ?><?= $has_empty ? ' has-empty-translation' : '' ?><?= $has_nonempty ? ' has-nonempty-translation' : '' ?><?= $has_changes ? ' has-changed-translation' : '' ?><?= $has_used ? ' has-used-translation' : '' ?>
+        ?>
+    <tr id="<?php echo str_replace('.', '-', $key) ?>" class="<?php echo $is_deleted ? ' deleted-translation' : '' ?><?php echo $has_empty ? ' has-empty-translation' : '' ?><?php echo $has_nonempty ? ' has-nonempty-translation' : '' ?><?php echo $has_changes ? ' has-changed-translation' : '' ?><?php echo $has_used ? ' has-used-translation' : '' ?>
             ">
-        <?php if($adminEnabled): ?>
+        <?php if($adminEnabled) : ?>
         <td>
-            <a href="<?= action($controller . '@postUndelete', [$group, encodeKey($key)]) ?>"
-                    class="undelete-key <?= $is_deleted ? "" : "hidden" ?>" data-method="POST"
+            <a href="<?php echo action($controller . '@postUndelete', [$group, encodeKey($key)]) ?>"
+                    class="undelete-key <?php echo $is_deleted ? "" : "hidden" ?>" data-method="POST"
                     data-remote="true">
                 <span class="glyphicon glyphicon-thumbs-up"></span>
             </a>
-            <a href="<?= action($controller . '@postDelete', [$group, encodeKey($key)]) ?>"
-                    class="delete-key <?= !$is_deleted ? "" : "hidden" ?>" data-method="POST"
+            <a href="<?php echo action($controller . '@postDelete', [$group, encodeKey($key)]) ?>"
+                    class="delete-key <?php echo !$is_deleted ? "" : "hidden" ?>" data-method="POST"
                     data-remote="true">
                 <span class="glyphicon glyphicon-trash"></span>
             </a>
@@ -156,19 +163,20 @@
         }
 
         ?>
-        <td class="key<?= $was_used ? ' used-key' : ' unused-key' ?>"><?= $key ?><?php
-            if ($has_source) {
-            ?><a style="float: right;" href="<?= action($controller . '@postShowSource', [$group, encodeKey($key)]) ?>"
+        <td class="key<?php echo $was_used ? ' used-key' : ' unused-key' ?>"><?php echo $key ?><?php
+        if ($has_source) {
+            ?><a style="float: right;" href="<?php echo action($controller . '@postShowSource', [$group, encodeKey($key)]) ?>"
                     class="show-source-refs" data-method="POST" data-remote="true" title="<?php echo app('translator')->getFromJson($package . '::messages.show-source-refs'); ?>">
-                <span class="glyphicon <?= $is_auto_added ? 'glyphicon-question-sign' : 'glyphicon-info-sign' ?>"></span>
+                <span class="glyphicon <?php echo $is_auto_added ? 'glyphicon-question-sign' : 'glyphicon-info-sign' ?>"></span>
             </a><?php
-            } ?></td>
+        } ?></td>
         <?php foreach($locales as $locale): ?>
-        <?php $isLocaleEnabled = str_contains($userLocalesString, ',' . $locale . ','); ?>
-        <?php if (!array_key_exists($locale, $useDisplayLocales)) continue; ?>
-        <?php $t = isset($translation[$locale]) ? $translation[$locale] : null ?>
-        <td class="<?= $locale !== $primaryLocale ? 'auto-translatable-' . $locale : ($locale === $primaryLocale ? 'auto-fillable' : '') ?><?= ($has_changed[$locale] ? ' has-unpublished-translation' : '') . ($has_changes_cached[$locale] ? ' has-cached-translation' : '') ?>">
-            <?=
+            <?php $isLocaleEnabled = str_contains($userLocalesString, ',' . $locale . ','); ?>
+            <?php if (!array_key_exists($locale, $useDisplayLocales)) { continue;
+            } ?>
+            <?php $t = isset($translation[$locale]) ? $translation[$locale] : null ?>
+        <td class="<?php echo $locale !== $primaryLocale ? 'auto-translatable-' . $locale : ($locale === $primaryLocale ? 'auto-fillable' : '') ?><?php echo ($has_changed[$locale] ? ' has-unpublished-translation' : '') . ($has_changes_cached[$locale] ? ' has-cached-translation' : '') ?>">
+            <?php echo
             $isLocaleEnabled ? $translator->inPlaceEditLink(!$t ? $t : ($t->value == '' ? null : $t), true, "$group.$key", $locale, null, $group) : $t->value
             ?>
         </td>

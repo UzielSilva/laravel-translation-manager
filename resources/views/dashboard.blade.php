@@ -16,32 +16,32 @@
             <tbody>
                 @foreach($stats as $stat)
                     <tr>
-                        <td class="deleted"><?= $stat->deleted ?: '&nbsp;'?></td>
-                        <td class="missing"><?= $stat->missing ?: '&nbsp;'?></td>
-                        <td class="changed"><?= $stat->changed ?: '&nbsp;'?></td>
-                        <td class="cached"><?= $stat->cached ?: '&nbsp;'?></td>
+                        <td class="deleted"><?php echo $stat->deleted ?: '&nbsp;'?></td>
+                        <td class="missing"><?php echo $stat->missing ?: '&nbsp;'?></td>
+                        <td class="changed"><?php echo $stat->changed ?: '&nbsp;'?></td>
+                        <td class="cached"><?php echo $stat->cached ?: '&nbsp;'?></td>
                         <?php
                         $action = action($controller . '@getView') . '/' . $stat->group;
                         ?>
                         @if ($stat->deleted)
                             <td class="group deleted">
-                                <a href="<?=$action?>"><?= $stat->group ?: '&nbsp;'?></a>
+                                <a href="<?php echo $action?>"><?php echo $stat->group ?: '&nbsp;'?></a>
                             </td>
                         @elseif ($stat->missing)
                             <td class="group missing">
-                                <a href="<?=$action?>"><?= $stat->group ?: '&nbsp;'?></a>
+                                <a href="<?php echo $action?>"><?php echo $stat->group ?: '&nbsp;'?></a>
                             </td>
                         @elseif ($stat->changed)
                             <td class="group changed">
-                                <a href="<?=$action?>"><?= $stat->group ?: '&nbsp;'?></a>
+                                <a href="<?php echo $action?>"><?php echo $stat->group ?: '&nbsp;'?></a>
                             </td>
                         @elseif ($stat->cached)
                             <td class="group cached">
-                                <a href="<?=$action?>"><?= $stat->group ?: '&nbsp;'?></a>
+                                <a href="<?php echo $action?>"><?php echo $stat->group ?: '&nbsp;'?></a>
                             </td>
                         @else
                             <td class="group">
-                                <a href="<?=$action?>"><?= $stat->group ?: '&nbsp;'?></a>
+                                <a href="<?php echo $action?>"><?php echo $stat->group ?: '&nbsp;'?></a>
                             </td>
                         @endif
                     </tr>

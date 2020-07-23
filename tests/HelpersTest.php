@@ -9,12 +9,12 @@ class HelpersTest extends \Vsch\Tests\TranslationManagerTestCase
      * Text mb_replace() functionality
      *
      * @dataProvider getReplaceStringProvider
-     * @var mixed  $search
-     * @var mixed  $replace
-     * @var string $subject
-     * @var string $expectedResult
-     * @var int    $expectedCount
-     * @return void
+     * @var          mixed  $search
+     * @var          mixed  $replace
+     * @var          string $subject
+     * @var          string $expectedResult
+     * @var          int    $expectedCount
+     * @return       void
      */
     public function testStrReplace($search, $replace, $subject, $expectedResult, $expectedCount)
     {
@@ -38,12 +38,12 @@ class HelpersTest extends \Vsch\Tests\TranslationManagerTestCase
      * Text mb_replace() functionality
      *
      * @dataProvider getReplaceStringProvider
-     * @var mixed  $search
-     * @var mixed  $replace
-     * @var string $subject
-     * @var string $expectedResult
-     * @var int    $expectedCount
-     * @return void
+     * @var          mixed  $search
+     * @var          mixed  $replace
+     * @var          string $subject
+     * @var          string $expectedResult
+     * @var          int    $expectedCount
+     * @return       void
      */
     public function testMbStrReplace($search, $replace, $subject, $expectedResult, $expectedCount)
     {
@@ -137,9 +137,12 @@ class HelpersTest extends \Vsch\Tests\TranslationManagerTestCase
             if ($testName === 'testMbReplace2' && $test[3]) {
                 $replace = $test[1];
                 $search = $test[0];
-                if (!is_array($replace) && is_array($search)) $replace = array_fill(0, count($search), $test[1]);
-                if (is_array($replace)) $replace = array_reverse(array_pad($replace, count($search), ''));
-                if (is_array($search)) $search = array_reverse($search);
+                if (!is_array($replace) && is_array($search)) { $replace = array_fill(0, count($search), $test[1]);
+                }
+                if (is_array($replace)) { $replace = array_reverse(array_pad($replace, count($search), ''));
+                }
+                if (is_array($search)) { $search = array_reverse($search);
+                }
 
                 $testData[] = [
                     $test[0],
@@ -161,18 +164,20 @@ class HelpersTest extends \Vsch\Tests\TranslationManagerTestCase
      * Text appendPath() functionality
      *
      * @dataProvider getAppendPathProvider
-     * @var string $path
-     * @var string $part
-     * @var string $expectedResult
-     * @return void
+     * @var          string $path
+     * @var          string $part
+     * @var          string $expectedResult
+     * @return       void
      */
     public function testAppendPath($path, $part, $expectedResult)
     {
         //echo $url . "\n";
         try {
-            self::timeIt('appendPath', function () use (&$result, $path, $part) {
-                $result = appendPath($path, $part);
-            });
+            self::timeIt(
+                'appendPath', function () use (&$result, $path, $part) {
+                    $result = appendPath($path, $part);
+                }
+            );
 
             if ($result !== $expectedResult) {
                 $result = appendPath($path, $part);

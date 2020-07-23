@@ -1,4 +1,6 @@
-<?php namespace Vsch\TranslationManager\Console;
+<?php
+
+namespace Vsch\TranslationManager\Console;
 
 use Illuminate\Console\Command;
 use Vsch\TranslationManager\Manager;
@@ -20,7 +22,9 @@ class CleanCommand extends Command
      */
     protected $description = 'Clean empty translations';
 
-    /** @var \Vsch\TranslationManager\Manager */
+    /**
+     * @var \Vsch\TranslationManager\Manager
+     */
     protected $manager;
 
     public function __construct(Manager $manager)
@@ -34,7 +38,8 @@ class CleanCommand extends Command
      *
      * @return void
      */
-    public function fire() {
+    public function fire()
+    {
         $this->handle();
     }
 

@@ -1,4 +1,6 @@
-<?php namespace Vsch\TranslationManager\Console;
+<?php
+
+namespace Vsch\TranslationManager\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +24,9 @@ class ExportCommand extends Command
      */
     protected $description = 'Export translations to PHP files';
 
-    /** @var \Vsch\TranslationManager\Manager */
+    /**
+     * @var \Vsch\TranslationManager\Manager
+     */
     protected $manager;
 
     public function __construct(Manager $manager)
@@ -36,7 +40,8 @@ class ExportCommand extends Command
      *
      * @return void
      */
-    public function fire() {
+    public function fire()
+    {
         $this->handle();
     }
 

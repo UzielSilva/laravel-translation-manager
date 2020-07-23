@@ -12,7 +12,6 @@ if (!function_exists('getSupportedLocale')) {
      * @param $lang
      *
      * @return mixed
-     *
      */
     function getSupportedLocale($lang)
     {
@@ -22,7 +21,8 @@ if (!function_exists('getSupportedLocale')) {
         $supportedLocales = \Config::get('app.supported_locales', [\Config::get('app.locale', 'en')]);
 
         foreach ($supportedLocales as $locale) {
-            if (!$firstLocale) $firstLocale = $locale;
+            if (!$firstLocale) { $firstLocale = $locale;
+            }
 
             if ($lang === $locale) {
                 $supported = true;
@@ -40,8 +40,8 @@ if (!function_exists('getSupportedLocale')) {
 
 if (!function_exists('mapTrans')) {
     /**
-     * @param       $string
-     * @param       $prefix
+     * @param $string
+     * @param $prefix
      * @param array $params
      *
      * @return mixed
@@ -50,7 +50,8 @@ if (!function_exists('mapTrans')) {
     {
         $namespace = $prefix . '.' . $string;
         $trans = trans($namespace, $params);
-        if ($trans === $namespace) $trans = $string;
+        if ($trans === $namespace) { $trans = $string;
+        }
         return $trans;
     }
 }
@@ -74,7 +75,7 @@ if (!function_exists('arrayCopy')) {
 
 if (!function_exists('transLang')) {
     /**
-     * @param       $key
+     * @param $key
      * @param array $replace
      * @param null  $locale
      * @param null  $useDB
@@ -90,7 +91,7 @@ if (!function_exists('transLang')) {
 
 if (!function_exists('noEditTransEmptyUndefined')) {
     /**
-     * @param       $key
+     * @param $key
      * @param array $replace
      * @param null  $locale
      * @param null  $useDB
@@ -114,8 +115,8 @@ if (!function_exists('noEditTransEmptyUndefined')) {
 
 if (!function_exists('transChoice')) {
     /**
-     * @param       $key
-     * @param       $number
+     * @param $key
+     * @param $number
      * @param array $replace
      * @param null  $locale
      * @param null  $useDB
@@ -131,13 +132,12 @@ if (!function_exists('transChoice')) {
 
 if (!function_exists('noEditTrans')) {
     /**
-     * @param       $key
+     * @param $key
      * @param array $parameters
      * @param null  $locale
      * @param null  $useDB
      *
      * @return mixed
-     *
      */
     function noEditTrans($key, $parameters = null, $locale = null, $useDB = null)
     {
@@ -155,14 +155,13 @@ if (!function_exists('noEditTrans')) {
 
 if (!function_exists('ifEditTrans')) {
     /**
-     * @param       $key
+     * @param $key
      * @param array $parameters
      * @param null  $locale
      * @param null  $useDB
      * @param null  $noWrap
      *
      * @return mixed
-     *
      */
     function ifEditTrans($key, $parameters = null, $locale = null, $useDB = null, $noWrap = null)
     {
@@ -179,7 +178,6 @@ if (!function_exists('ifEditTrans')) {
 if (!function_exists('getEditableLinks')) {
     /**
      * @return string
-     *
      */
     function getEditableLinks()
     {
@@ -191,7 +189,6 @@ if (!function_exists('getEditableLinks')) {
 if (!function_exists('getEditableLinksOnly')) {
     /**
      * @return string
-     *
      */
     function getEditableLinksOnly()
     {
@@ -203,7 +200,6 @@ if (!function_exists('getEditableLinksOnly')) {
 if (!function_exists('getWebUITranslations')) {
     /**
      * @return string
-     *
      */
     function getWebUITranslations()
     {
@@ -227,7 +223,7 @@ if (!function_exists('getEditableTranslationsButton')) {
 
 if (!function_exists('ifInPlaceEdit')) {
     /**
-     * @param       $text
+     * @param $text
      * @param array $replace
      * @param null  $locale
      * @param null  $useDB
@@ -253,7 +249,6 @@ if (!function_exists('ifInPlaceEdit')) {
 if (!function_exists('inPlaceEditing')) {
     /**
      * @return string
-     *
      */
     function inPlaceEditing($inPlaceEditing = null)
     {
@@ -278,7 +273,6 @@ if (!function_exists('isInPlaceEditing')) {
 if (!function_exists('inPlaceEditingMode')) {
     /**
      * @return int
-     *
      */
     function inPlaceEditingMode()
     {
@@ -372,8 +366,8 @@ if (!function_exists('mb_unsplit')) {
 if (!function_exists('mb_renderDiffHtml')) {
 
     /**
-     * @param      $from_text
-     * @param      $to_text
+     * @param $from_text
+     * @param $to_text
      *
      * @param bool $charDiff
      *
@@ -382,7 +376,8 @@ if (!function_exists('mb_renderDiffHtml')) {
     function mb_renderDiffHtml($from_text, $to_text, $charDiff = null)
     {
         //if ($from_text === 'Lang' && $to_text === 'Language') xdebug_break();
-        if ($from_text == $to_text) return $to_text;
+        if ($from_text == $to_text) { return $to_text;
+        }
 
         $removeSpaces = false;
         if ($charDiff === null) {
@@ -434,7 +429,8 @@ if (!function_exists('trim_prefix')) {
      */
     function trim_prefix($text, $prefix)
     {
-        if (!is_array($prefix)) $prefix = array($prefix);
+        if (!is_array($prefix)) { $prefix = array($prefix);
+        }
         foreach ($prefix as $pre) {
             if (strpos($text, $pre) === 0) {
                 $text = substr($text, strlen($pre));
@@ -454,7 +450,8 @@ if (!function_exists('trim_suffix')) {
      */
     function trim_suffix($text, $suffix)
     {
-        if (!is_array($suffix)) $suffix = array($suffix);
+        if (!is_array($suffix)) { $suffix = array($suffix);
+        }
         $textLen = strlen($text);
 
         foreach ($suffix as $suff) {
@@ -469,7 +466,7 @@ if (!function_exists('trim_suffix')) {
 
 if (!function_exists('encodeKey')) {
     /**
-     * @param $text   string
+     * @param $text string
      *
      * @return string
      */
@@ -481,7 +478,7 @@ if (!function_exists('encodeKey')) {
 
 if (!function_exists('decodeKey')) {
     /**
-     * @param $text   string
+     * @param $text string
      *
      * @return string
      */

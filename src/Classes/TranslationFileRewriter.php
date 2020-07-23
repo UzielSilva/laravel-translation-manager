@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: vlad
@@ -88,7 +89,9 @@ class TranslationFileRewriter
 
     public static function optionFlags($optionNames)
     {
-        if (!is_array($optionNames)) $optionNames = array($optionNames);
+        if (!is_array($optionNames)) {
+            $optionNames = array($optionNames);
+        }
         $options = 0;
         foreach ($optionNames as $optionName) {
             if (array_key_exists($optionName, self::$options)) {
@@ -98,7 +101,7 @@ class TranslationFileRewriter
         return $options;
     }
 
-    public static function str_count_chars($chars, $string)
+    public static function strCountChars($chars, $string)
     {
         $iMax = mb_strlen($string);
         $counts = array_fill(0, $iMax, 0);
@@ -111,12 +114,14 @@ class TranslationFileRewriter
         return !is_array($chars) || count($chars) === 1 ? $counts[0] : $counts;
     }
 
-    public static function str_count_trailing($chars, $string)
+    public static function strCountTrailing($chars, $string)
     {
         $iMax = mb_strlen($string);
         $counts = array_fill(0, $iMax, 0);
         for ($i = $iMax; $i--;) {
-            if (($pos = strpos(mb_substr($string, $i, 1), $chars)) === false) break;
+            if (($pos = strpos(mb_substr($string, $i, 1), $chars)) === false) {
+                break;
+            }
             $counts[$pos]++;
         }
 
@@ -161,18 +166,22 @@ class TranslationFileRewriter
                 $inPhp = true;
                 continue;
             }
-            if (!$inPhp) continue;
+            if (!$inPhp) {
+                continue;
+            }
 
             if ($token_name === T_RETURN) {
                 $inReturn = true;
                 continue;
             }
-            if (!$inReturn) continue;
+            if (!$inReturn) {
+                continue;
+            }
 
             if ($token_name === T_WHITESPACE) {
                 // accumulate eol's only
-                $lastComment .= str_repeat("\n", self::str_count_chars("\n", $token_data));
-                $preCommentSpaces = str_repeat(" ", self::str_count_trailing(" ", $token_data));
+                $lastComment .= str_repeat("\n", self::strCountChars("\n", $token_data));
+                $preCommentSpaces = str_repeat(" ", self::strCountTrailing(" ", $token_data));
                 continue;
             } elseif ($token_name === T_COMMENT || $token_name === T_DOC_COMMENT) {
                 if (substr($token_data, 0, 2) !== '//') {
@@ -305,16 +314,23 @@ class TranslationFileRewriter
         if (is_array($trans)) {
             if (!$trans) {
                 if ($indent) {
-                    if ($options & self::OPT_USE_SHORT_ARRAY) $text .= "[]";
-                    else $text .= "array()";
+                    if ($options & self::OPT_USE_SHORT_ARRAY) {
+                        $text .= "[]";
+                    } else {
+                        $text .= "array()";
+                    }
                 }
             } else {
-                if ($indent) $text .= ($options & self::OPT_USE_SHORT_ARRAY) ? "[\n" : "array(\n";
+                if ($indent) {
+                    $text .= ($options & self::OPT_USE_SHORT_ARRAY) ? "[\n" : "array(\n";
+                }
 
                 $indT = $ind . str_repeat(' ', 4);
                 $max = 0;
                 foreach ($trans as $key => $val) {
-                    if (strlen($key) > $max) $max = strlen($key) + 1;
+                    if (strlen($key) > $max) {
+                        $max = strlen($key) + 1;
+                    }
                 }
                 $max += (($max + 2) & 3) ? 4 - (($max + 2) & 3) : 0;
 
@@ -332,7 +348,9 @@ class TranslationFileRewriter
                     $text .= $indT . "$str$pad=> $val,\n";
                 }
 
-                if ($indent) $text .= $ind . (($options & self::OPT_USE_SHORT_ARRAY) ? "]" : ")");
+                if ($indent) {
+                    $text .= $ind . (($options & self::OPT_USE_SHORT_ARRAY) ? "]" : ")");
+                }
             }
         } else {
             $text = self::wrapQuotes($trans, $options);
@@ -341,7 +359,7 @@ class TranslationFileRewriter
     }
 
     /**
-     * @param      array $trans translation to output
+     * @param array        $trans   translation to output
      * @param null|integer $options formatting options
      *
      * @return string result of output of translations taking sections into account
@@ -377,7 +395,9 @@ class TranslationFileRewriter
                 $text .= $this->sections[$i - 1];
             }
 
-            if ($sections[$i]) $text .= $this->formatSection($sections[$i], $options);
+            if ($sections[$i]) {
+                $text .= $this->formatSection($sections[$i], $options);
+            }
         }
 
         $text .= (($options & self::OPT_USE_SHORT_ARRAY) ? "]" : ")") . ";\n";
@@ -388,9 +408,9 @@ class TranslationFileRewriter
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
      * @return string
-     * @link http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
+     * @link   http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
      */
-    function __toString()
+    public function __toString()
     {
         ob_start();
         foreach ($this->tokens as $token) {

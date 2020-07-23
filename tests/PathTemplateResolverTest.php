@@ -17,12 +17,11 @@ class PathTemplateResolverTest extends \Vsch\Tests\TranslationManagerTestCase
     /**
      * @coversNothing
      *
-     * @dataProvider    getMergeConfigProvider
-     * @var array $config
-     * @var array $default
-     * @var array $expectedResult
-     * @return void
-     *
+     * @dataProvider getMergeConfigProvider
+     * @var          array $config
+     * @var          array $default
+     * @var          array $expectedResult
+     * @return       void
      */
     //public
     //function testMergeConfig($config, $default, $expectedResult)
@@ -63,12 +62,12 @@ class PathTemplateResolverTest extends \Vsch\Tests\TranslationManagerTestCase
     }
 
     /**
-     * @covers       PathTemplateResolver::normalizeInclude
+     * @covers PathTemplateResolver::normalizeInclude
      *
      * @dataProvider getNormalizeIncludeProvider
-     * @var array $config
-     * @var array $expectedResult
-     * @return void
+     * @var          array $config
+     * @var          array $expectedResult
+     * @return       void
      */
     public function testNormalizeInclude($config, $expectedResult)
     {
@@ -133,7 +132,7 @@ class PathTemplateResolverTest extends \Vsch\Tests\TranslationManagerTestCase
     }
 
     /**
-     * @covers       PathTemplateResolver::configValues
+     * @covers PathTemplateResolver::configValues
      *
      * @dataProvider getConfigValuesProvider
      *
@@ -215,7 +214,7 @@ class PathTemplateResolverTest extends \Vsch\Tests\TranslationManagerTestCase
     }
 
     /**
-     * @covers       PathTemplateResolver::isPathIncluded
+     * @covers PathTemplateResolver::isPathIncluded
      *
      * @dataProvider getIsPathIncludedProvider
      *
@@ -460,13 +459,13 @@ class PathTemplateResolverTest extends \Vsch\Tests\TranslationManagerTestCase
     }
 
     /**
-     * @covers       PathTemplateResolver::expandVars
+     * @covers PathTemplateResolver::expandVars
      *
      * @dataProvider getExpandVarsProvider
-     * @var string $text
-     * @var array  $vars
-     * @var string $expectedResult
-     * @return void
+     * @var          string $text
+     * @var          array  $vars
+     * @var          string $expectedResult
+     * @return       void
      */
     public function testExpandVars($text, $vars, $expectedResult)
     {
@@ -495,13 +494,13 @@ class PathTemplateResolverTest extends \Vsch\Tests\TranslationManagerTestCase
     }
 
     /**
-     * @covers       PathTemplateResolver::extractTemplateVars
+     * @covers PathTemplateResolver::extractTemplateVars
      *
      * @dataProvider getExtractTemplateVarsProvider
-     * @var array $template
-     * @var array $text
-     * @var array $expectedResult
-     * @return void
+     * @var          array $template
+     * @var          array $text
+     * @var          array $expectedResult
+     * @return       void
      */
     public function testExtractTemplateVars($template, $text, $expectedResult)
     {

@@ -236,15 +236,14 @@ class FineDiffOps
  * FineDiff class
  *
  * TODO: Document
- *
  */
 class FineDiff
 {
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      *
      * Public section
-     *
      */
 
     /**
@@ -298,7 +297,8 @@ class FineDiff
         return ob_get_clean();
     }
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      * Return an opcodes string describing the diff between a "From" and a
      * "To" string
      */
@@ -308,7 +308,8 @@ class FineDiff
         return $diff->getOpcodes();
     }
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      * Return an iterable collection of diff ops from an opcodes string
      */
     public static function getDiffOpsFromOpcodes($opcodes)
@@ -318,7 +319,8 @@ class FineDiff
         return $diffops->edits;
     }
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      * Re-create the "To" string from the "From" string and an "Opcodes" string
      */
     public static function renderToTextFromOpcodes($from, $opcodes)
@@ -328,7 +330,8 @@ class FineDiff
         return ob_get_clean();
     }
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      * Render the diff to an HTML string
      */
     public static function renderDiffToHTMLFromOpcodes($from, $opcodes)
@@ -338,7 +341,8 @@ class FineDiff
         return ob_get_clean();
     }
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      * Generic opcodes parser, user must supply callback for handling
      * single opcode
      */
@@ -404,10 +408,10 @@ class FineDiff
         ""
     );
 
-    /**------------------------------------------------------------------------
+    /**
+     * ------------------------------------------------------------------------
      *
      * Private section
-     *
      */
 
     /**

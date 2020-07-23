@@ -13,15 +13,17 @@ class CreateTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ltm_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->tinyInteger('status')->default(0);
-            $table->string('locale', 32);
-            $table->string('group', 128);
-            $table->string('key', 128);
-            $table->text('value')->nullable();
-            $table->timestamps();
-        });
+        Schema::create(
+            'ltm_translations', function (Blueprint $table) {
+                $table->increments('id');
+                $table->tinyInteger('status')->default(0);
+                $table->string('locale', 32);
+                $table->string('group', 128);
+                $table->string('key', 128);
+                $table->text('value')->nullable();
+                $table->timestamps();
+            }
+        );
     }
 
     /**

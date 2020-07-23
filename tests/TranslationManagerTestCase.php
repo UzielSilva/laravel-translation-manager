@@ -49,8 +49,10 @@ class TranslationManagerTestCase extends \Illuminate\Foundation\Testing\TestCase
         self::$timers = [];
         self::$timing = [];
         for ($i = 0; $i < $iMax; $i++) {
-            self::timeIt('$timeItOverhead', function () {
-            });
+            self::timeIt(
+                '$timeItOverhead', function () {
+                }
+            );
             self::startTimer('$startEndOverhead', microtime(true));
             self::endTimer('$startEndOverhead', microtime(true));
         }
@@ -74,23 +76,29 @@ class TranslationManagerTestCase extends \Illuminate\Foundation\Testing\TestCase
         echo $s;
         echo str_repeat('-', strlen($s)) . "\n";
 
-        array_walk(self::$timing, function (&$value, $key) {
-            $value['avg'] = round($value['total'] / $value['count'] * 1000000, 3);
-        });
+        array_walk(
+            self::$timing, function (&$value, $key) {
+                $value['avg'] = round($value['total'] / $value['count'] * 1000000, 3);
+            }
+        );
 
-        usort(self::$timing, function ($a, $b) {
-            $at = $a['avg'];
-            $bt = $b['avg'];
-            return $at === $bt ? 0 : ($at < $bt ? -1 : 1);
-        });
+        usort(
+            self::$timing, function ($a, $b) {
+                $at = $a['avg'];
+                $bt = $b['avg'];
+                return $at === $bt ? 0 : ($at < $bt ? -1 : 1);
+            }
+        );
 
         $best = self::$timing[0]['avg'];
 
         foreach (self::$timing as $timing) {
-            printf("%40s %6d %7.3fms %7.3fus %4.1f%%\n", $timing['name'], $timing['count'],
+            printf(
+                "%40s %6d %7.3fms %7.3fus %4.1f%%\n", $timing['name'], $timing['count'],
                 round($timing['total'] * 1000, 3),
                 $timing['avg'],
-                round($timing['avg'] / $best * 100, 3));
+                round($timing['avg'] / $best * 100, 3)
+            );
         }
         echo str_repeat('-', strlen($s)) . "\n\n";
         printf("\nTiming compensated for avg overhead for: timeIt of %.3fus and startTimer/endTimer of %.3fus per invocation\n\n", self::$timeItOverhead * 1000000, self::$startEndOverhead * 1000000);
@@ -112,7 +120,7 @@ class TranslationManagerTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function createApplication()
     {
-        $app = require __DIR__ . '/../../../../bootstrap/app.php';
+        $app = include __DIR__ . '/../../../../bootstrap/app.php';
 
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
